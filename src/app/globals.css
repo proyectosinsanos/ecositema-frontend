@@ -1,0 +1,106 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────
+   Design Tokens — tema claro (default)
+   Para dark mode: añadir [data-theme="dark"]
+   con los valores alternativos.
+───────────────────────────────────────── */
+:root {
+  /* Colores de marca */
+  --color-primary:        #1a3a5c;
+  --color-primary-light:  #2a5a8c;
+  --color-primary-dark:   #102540;
+
+  --color-secondary:      #1d9e75;
+  --color-secondary-light:#25c492;
+  --color-secondary-dark: #147a5a;
+
+  --color-accent:         #d85a30;
+  --color-accent-light:   #e87a55;
+  --color-accent-dark:    #b04020;
+
+  /* Fondo y superficies */
+  --color-bg:             #ffffff;
+  --color-surface:        #f5f7fa;
+  --color-surface-alt:    #eef1f5;
+
+  /* Texto */
+  --color-text:           #111827;
+  --color-text-muted:     #6b7280;
+  --color-text-inverse:   #ffffff;
+
+  /* Bordes */
+  --color-border:         #e5e7eb;
+  --color-border-strong:  #d1d5db;
+
+  /* Estados */
+  --color-success:        #1d9e75;
+  --color-warning:        #f59e0b;
+  --color-error:          #ef4444;
+  --color-info:           #3b82f6;
+
+  /* Sombras */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+
+  /* Radios */
+  --radius-sm:  4px;
+  --radius-md:  8px;
+  --radius-lg:  12px;
+  --radius-xl:  16px;
+  --radius-full: 9999px;
+
+  /* Transiciones */
+  --transition-fast:   150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow:   400ms ease;
+}
+
+/* ─────────────────────────────────────────
+   Dark mode — cambiar atributo en <html>:
+   document.documentElement.dataset.theme = 'dark'
+───────────────────────────────────────── */
+[data-theme="dark"] {
+  --color-bg:            #0f1923;
+  --color-surface:       #1a2738;
+  --color-surface-alt:   #223347;
+
+  --color-text:          #f9fafb;
+  --color-text-muted:    #9ca3af;
+
+  --color-border:        #2d3d4f;
+  --color-border-strong: #3d5166;
+}
+
+/* ─────────────────────────────────────────
+   Base global
+───────────────────────────────────────── */
+@layer base {
+  html {
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    font-family: var(--font-general-sans), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+/* ─────────────────────────────────────────
+   Material Symbols helper
+───────────────────────────────────────── */
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+  user-select: none;
+  vertical-align: middle;
+}
