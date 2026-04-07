@@ -1,5 +1,6 @@
-import Sidebar from '@/components/common/Sidebar/Sidebar';
 import Header from '@/components/common/Header/Header';
+import Sidebar from '@/components/common/Sidebar/Sidebar';
+import SidebarDrawer from '@/components/common/Sidebar/SidebarDrawer';
 
 export default function DashboardLayout({
   children,
@@ -7,14 +8,26 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen">
+    <div className="flex h-screen overflow-hidden">
+
+      {/* Barra de íconos — altura completa de la pantalla */}
       <Sidebar />
-      <div className="flex flex-col flex-1 min-w-0">
+
+      {/* Columna derecha: header arriba, drawer + contenido abajo */}
+      <div className="flex flex-col flex-1 overflow-hidden">
         <Header />
-        <main className="flex-1 bg-surface p-6">
-          {children}
-        </main>
+
+        <div className="flex flex-1 overflow-hidden">
+          {/* Drawer — empuja el contenido cuando está abierto */}
+          <SidebarDrawer />
+
+          {/* Contenido de la página */}
+          <main className="flex-1 bg-surface p-6 overflow-auto">
+            {children}
+          </main>
+        </div>
       </div>
+
     </div>
   );
 }
