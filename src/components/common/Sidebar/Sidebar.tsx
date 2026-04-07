@@ -1,11 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/store/auth.store';
 import { useUiStore } from '@/store/ui.store';
 import { MICROSERVICIOS } from '@/config/microservicios.config';
-import { AUTH_ENDPOINTS } from '@/api/auth.endpoints';
 
 const NAV_ITEMS = [
   { href: '/dashboard', label: 'Dashboard', icono: 'space_dashboard' },
@@ -49,23 +48,12 @@ function SidebarItem({ icono, label, activo, onClick, href, external }: SidebarI
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const router   = useRouter();
-  const { usuario, productoActivo, limpiar } = useAuthStore();
+  const { productoActivo } = useAuthStore();
   const { toggleSidebar } = useUiStore();
 
   const microserviciosActivos = MICROSERVICIOS.filter((m) =>
     productoActivo?.microservicios.includes(m.key)
   );
-
-  const handleLogout = async () => {
-    try {
-      // TODO: Reemplazar con llamada real a la API
-      await fetch(AUTH_ENDPOINTS.LOGOUT, { method: 'POST', credentials: 'include' });
-    } finally {
-      limpiar();
-      router.push('/login');
-    }
-  };
 
   return (
     <aside className="flex flex-col items-center w-16 bg-primary py-3 gap-2 shrink-0">
@@ -107,21 +95,6 @@ export default function Sidebar() {
       )}
 
       <div className="flex-1" />
-
-      {/* Avatar */}
-      {usuario && (
-        <div className="group relative flex items-center justify-center w-10 h-10 rounded-xl bg-white/10 cursor-default">
-          <span className="text-white text-sm font-semibold">
-            {usuario.name.charAt(0).toUpperCase()}
-          </span>
-          <span className="pointer-events-none absolute left-full ml-3 px-2 py-1 rounded-md bg-gray-900 text-white text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-50">
-            {usuario.name} {usuario.last_name}
-          </span>
-        </div>
-      )}
-
-      {/* Logout */}
-      <SidebarItem icono="logout" label="Cerrar sesión" onClick={handleLogout} />
 
     </aside>
   );

@@ -2,6 +2,7 @@ import Header from '@/components/common/Header/Header';
 import Sidebar from '@/components/common/Sidebar/Sidebar';
 import SidebarDrawer from '@/components/common/Sidebar/SidebarDrawer';
 import ProductoBar from '@/components/common/ProductoBar/ProductoBar';
+import NotificationsDrawer from '@/components/common/Notifications/NotificationsDrawer';
 
 export default function DashboardLayout({
   children,
@@ -11,7 +12,7 @@ export default function DashboardLayout({
   return (
     <div className="flex h-screen overflow-hidden">
 
-      {/* Barra izquierda — navegación de miroservicos */}
+      {/* Barra izquierda — microservicios del producto activo, altura completa */}
       <Sidebar />
 
       {/* Columna central: header + contenido */}
@@ -19,7 +20,8 @@ export default function DashboardLayout({
         <Header />
 
         <div className="flex flex-1 overflow-hidden">
-          {/* menu deslizante*/}
+
+          {/* Drawer izquierdo — navegación */}
           <SidebarDrawer />
 
           {/* Contenido de la página */}
@@ -27,8 +29,12 @@ export default function DashboardLayout({
             {children}
           </main>
 
-          {/* Barra derecha de producto activo */}
+          {/* Drawer derecho — notificaciones */}
+          <NotificationsDrawer />
+
+          {/* Barra derecha — productos */}
           <ProductoBar />
+
         </div>
       </div>
 

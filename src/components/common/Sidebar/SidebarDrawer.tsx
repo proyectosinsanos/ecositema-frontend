@@ -1,10 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/store/auth.store';
 import { useUiStore } from '@/store/ui.store';
-import { AUTH_ENDPOINTS } from '@/api/auth.endpoints';
 
 const NAV_ITEMS = [
   { href: '/dashboard', label: 'Dashboard', icono: 'space_dashboard' },
@@ -13,22 +12,10 @@ const NAV_ITEMS = [
 
 export default function SidebarDrawer() {
   const pathname = usePathname();
-  const router   = useRouter();
-  const { usuario, empresa, limpiar } = useAuthStore();
   const { sidebarOpen } = useUiStore();
 
-  const itemActivo  = NAV_ITEMS.find((item) => item.href === pathname) ?? NAV_ITEMS[0];
+  const itemActivo     = NAV_ITEMS.find((item) => item.href === pathname) ?? NAV_ITEMS[0];
   const itemsRestantes = NAV_ITEMS.filter((item) => item.href !== itemActivo.href);
-
-  const handleLogout = async () => {
-    try {
-      // TODO: Reemplazar con llamada real a la API
-      await fetch(AUTH_ENDPOINTS.LOGOUT, { method: 'POST', credentials: 'include' });
-    } finally {
-      limpiar();
-      router.push('/login');
-    }
-  };
 
   return (
     <div
@@ -63,34 +50,6 @@ export default function SidebarDrawer() {
 
         <div className="flex-1" />
 
-        {/* Usuario + empresa */}
-        <div className="px-3 pb-4 border-t border-border pt-3 flex flex-col gap-1 shrink-0">
-          {usuario && (
-            <div className="flex items-center gap-3 px-3 py-2">
-              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                <span className="text-primary text-sm font-semibold">
-                  {usuario.name.charAt(0).toUpperCase()}
-                </span>
-              </div>
-              <div className="flex flex-col min-w-0">
-                <span className="text-text text-sm font-medium truncate">
-                  {usuario.name} {usuario.last_name}
-                </span>
-                {empresa && (
-                  <span className="text-text-muted text-xs truncate">{empresa.name}</span>
-                )}
-              </div>
-            </div>
-          )}
-
-          <button
-            onClick={handleLogout}
-            className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-medium text-text-muted hover:bg-surface hover:text-text transition-colors whitespace-nowrap"
-          >
-            <span className="material-symbols-outlined text-[20px] shrink-0">logout</span>
-            Cerrar sesión
-          </button>
-        </div>
 
       </div>
     </div>
