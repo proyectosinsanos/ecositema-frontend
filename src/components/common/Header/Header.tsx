@@ -1,28 +1,33 @@
 'use client';
 
-import { usePathname } from 'next/navigation';
 import { useAuthStore } from '@/store/auth.store';
 
-const TITULOS: Record<string, string> = {
-  '/dashboard': 'Dashboard',
-  // TODO: Agregar títulos de las demás rutas del ecosistema
-};
-
-function obtenerTitulo(pathname: string): string {
-  return TITULOS[pathname] ?? 'Ecosistema';
-}
-
 export default function Header() {
-  const pathname = usePathname();
-  const { empresa } = useAuthStore();
+  const { empresa, productoActivo } = useAuthStore();
 
   return (
     <header className="flex items-center justify-between h-16 px-6 bg-bg border-b border-border shrink-0">
 
-      {/* Título de la página actual */}
-      <h1 className="text-base font-semibold text-text">
-        {obtenerTitulo(pathname)}
-      </h1>
+      {/* Producto activo */}
+      <div className="flex items-center gap-3">
+        {productoActivo ? (
+          <>
+            {/* TODO: Reemplazar inicial con logo oficial del producto */}
+            <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shrink-0">
+              <span className="text-white text-sm font-bold">
+                {productoActivo.nombre.charAt(0).toUpperCase()}
+              </span>
+            </div>
+            <span className="text-base font-semibold text-text">
+              {productoActivo.nombre}
+            </span>
+          </>
+        ) : (
+          <span className="text-base font-semibold text-text-muted">
+            Selecciona un producto
+          </span>
+        )}
+      </div>
 
       {/* Lado derecho */}
       <div className="flex items-center gap-4">

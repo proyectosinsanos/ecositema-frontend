@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store/auth.store';
 import { useUiStore } from '@/store/ui.store';
-import { MICROSERVICIOS } from '@/config/microservicios.config';
 import { AUTH_ENDPOINTS } from '@/api/auth.endpoints';
 
 const NAV_ITEMS = [
@@ -15,12 +14,8 @@ const NAV_ITEMS = [
 export default function SidebarDrawer() {
   const pathname = usePathname();
   const router   = useRouter();
-  const { usuario, empresa, servicios, limpiar } = useAuthStore();
+  const { usuario, empresa, limpiar } = useAuthStore();
   const { sidebarOpen } = useUiStore();
-
-  const microserviciosContratados = MICROSERVICIOS.filter((m) =>
-    servicios.includes(m.key as unknown as typeof servicios[number])
-  );
 
   const itemActivo  = NAV_ITEMS.find((item) => item.href === pathname) ?? NAV_ITEMS[0];
   const itemsRestantes = NAV_ITEMS.filter((item) => item.href !== itemActivo.href);
@@ -65,25 +60,6 @@ export default function SidebarDrawer() {
             </Link>
           ))}
         </nav>
-
-        {/* Microservicios */}
-        {microserviciosContratados.length > 0 && (
-          <div className="flex flex-col gap-1 px-3 mt-4">
-            <p className="px-3 mb-1 text-xs font-semibold text-text-muted uppercase tracking-wider whitespace-nowrap">
-              Mis servicios
-            </p>
-            {microserviciosContratados.map((m) => (
-              <a
-                key={m.key}
-                href={m.url}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-text-muted hover:bg-surface hover:text-text transition-colors whitespace-nowrap"
-              >
-                <span className="material-symbols-outlined text-[20px] shrink-0">{m.icono}</span>
-                {m.label}
-              </a>
-            ))}
-          </div>
-        )}
 
         <div className="flex-1" />
 

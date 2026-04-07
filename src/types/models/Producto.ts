@@ -1,0 +1,13 @@
+import { MicroservicioKey } from '@/types/Microservicio/MicroservicioKey.enum';
+
+/**
+ * Un producto es un conjunto de microservicios contratados por una empresa.
+ * Cada empresa puede tener uno o varios productos, cada uno con su propio
+ * set de microservicios.
+ * TODO: Confirmar estructura con el backend cuando esté definida en la BD.
+ */
+export interface Producto {
+  id_producto: number;
+  nombre: string;
+  microservicios: MicroservicioKey[];
+}

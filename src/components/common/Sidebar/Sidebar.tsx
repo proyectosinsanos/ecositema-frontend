@@ -48,13 +48,13 @@ function SidebarItem({ icono, label, activo, onClick, href, external }: SidebarI
 }
 
 export default function Sidebar() {
-  const pathname  = usePathname();
-  const router    = useRouter();
-  const { usuario, servicios, limpiar } = useAuthStore();
+  const pathname = usePathname();
+  const router   = useRouter();
+  const { usuario, productoActivo, limpiar } = useAuthStore();
   const { toggleSidebar } = useUiStore();
 
-  const microserviciosContratados = MICROSERVICIOS.filter((m) =>
-    servicios.includes(m.key as unknown as typeof servicios[number])
+  const microserviciosActivos = MICROSERVICIOS.filter((m) =>
+    productoActivo?.microservicios.includes(m.key)
   );
 
   const handleLogout = async () => {
@@ -70,12 +70,12 @@ export default function Sidebar() {
   return (
     <aside className="flex flex-col items-center w-16 bg-primary py-3 gap-2 shrink-0">
 
-      {/* Hamburguesa — abre/cierra el drawer */}
+      {/* Hamburguesa */}
       <SidebarItem icono="menu" label="Menú" onClick={toggleSidebar} />
 
       <div className="w-8 h-px bg-white/10" />
 
-      {/* Navegación principal */}
+      {/* Navegación principal del ecosistema */}
       <nav className="flex flex-col items-center gap-1">
         {NAV_ITEMS.map((item) => (
           <SidebarItem
@@ -88,14 +88,23 @@ export default function Sidebar() {
         ))}
       </nav>
 
-      {microserviciosContratados.length > 0 && <div className="w-8 h-px bg-white/10" />}
-
-      {/* Microservicios */}
-      <div className="flex flex-col items-center gap-1">
-        {microserviciosContratados.map((m) => (
-          <SidebarItem key={m.key} href={m.url} icono={m.icono} label={m.label} external />
-        ))}
-      </div>
+      {/* Microservicios del producto activo */}
+      {microserviciosActivos.length > 0 && (
+        <>
+          <div className="w-8 h-px bg-white/10" />
+          <div className="flex flex-col items-center gap-1">
+            {microserviciosActivos.map((m) => (
+              <SidebarItem
+                key={m.key}
+                href={m.url}
+                icono={m.icono}
+                label={m.label}
+                external
+              />
+            ))}
+          </div>
+        </>
+      )}
 
       <div className="flex-1" />
 
