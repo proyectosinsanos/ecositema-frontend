@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Ecosistema — Cistem Labs
 
-## Getting Started
+Shell frontend del ecosistema de microservicios de Cistem Labs. Actúa como contenedor principal que orquesta los productos y sus microservicios, cargando cada uno dentro de un `<iframe>` sin salir de la aplicación.
 
-First, run the development server:
+## Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Next.js 14** (App Router)
+- **TypeScript**
+- **Tailwind CSS** con design tokens personalizados
+- **Zustand** para estado global
+- **General Sans** como fuente principal (local)
+- **Material Symbols Outlined** para íconos
+
+## Estructura del proyecto
+
+```
+src/
+├── app/
+│   ├── (auth)/             # Login y recuperación de contraseña
+│   └── (dashboard)/        # Layout principal del ecosistema
+│       └── dashboard/      # Página de dashboard (por producto activo)
+├── components/
+│   └── common/
+│       ├── Header/         # Header, UserMenu, Notifications
+│       ├── Sidebar/        # Sidebar de microservicios, SidebarDrawer de navegación
+│       ├── Notifications/  # NotificationsDrawer
+│       ├── ProductoBar/    # Barra lateral de productos
+│       └── MicroservicioFrame.tsx  # Contenedor iframe para microservicios
+├── config/
+│   └── microservicios.config.ts   # Catálogo de microservicios registrados
+├── store/
+│   ├── auth.store.ts       # Usuario, empresa, productos, microservicio activo
+│   ├── ui.store.ts         # Estado del sidebar y drawer de notificaciones
+│   └── notificaciones.store.ts
+├── types/
+│   ├── models/             # Entidades (Usuario, Empresa, Producto, Notificacion)
+│   └── Microservicio/      # Tipo, enum de keys
+├── mocks/
+│   └── mock.data.ts        # Datos mock para desarrollo
+└── api/                    # Endpoints por recurso
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Layout
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+┌─────────────────────────────────────────────────┐
+│                    Header                       │
+├──────┬─────────┬──────────────────┬───────┬─────┤
+│      │ Sidebar │                  │Notif  │Prod │
+│Side  │ Drawer  │   <iframe> o     │Drawer │Bar  │
+│bar   │ (menú   │   dashboard      │       │     │
+│      │ micro)  │                  │       │     │
+└──────┴─────────┴──────────────────┴───────┴─────┘
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **Sidebar** — íconos de microservicios del producto activo
+- **SidebarDrawer** — menú de navegación interno del microservicio activo (o rutas del ecosistema si no hay ninguno)
+- **MicroservicioFrame** — renderiza `<iframe>` con el frontend del microservicio, o los `children` de Next.js si no hay microservicio activo
+- **ProductoBar** — selector de producto activo (lado derecho)
+- **NotificationsDrawer** — bandeja de notificaciones (lado derecho)
 
-## Learn More
+## Variables de entorno
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+NEXT_PUBLIC_USE_MOCKS=true   # Activa datos mock para desarrollo
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# URL de cada microservicio (se agregan conforme se integran)
+NEXT_PUBLIC_URL_MICROSERVICIO_CISTEM_VISION=http://localhost:3001
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Agregar un nuevo microservicio
 
-## Deploy on Vercel
+1. Agregar la key en `src/types/Microservicio/MicroservicioKey.enum.ts`
+2. Registrarlo en `src/config/microservicios.config.ts` con su `label`, `icono`, `url` y `menu`
+3. Agregar la variable de entorno `NEXT_PUBLIC_URL_MICROSERVICIO_<KEY>`
+4. Asignarlo al producto correspondiente en el backend (o en el mock)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Modo mock
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Con `NEXT_PUBLIC_USE_MOCKS=true` el `MockInitializer` carga usuario, empresa, productos y notificaciones desde `src/mocks/mock.data.ts`, sin necesidad de backend.
+
+## Desarrollo
+
+```bash
+npm install
+npm run dev
+```
