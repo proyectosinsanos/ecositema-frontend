@@ -2,11 +2,6 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
-/*
- * General Sans — self-hosted en /public/fonts/
- * Agregar los archivos .woff2 antes de correr el proyecto.
- * Descargar desde: https://www.fontshare.com/fonts/general-sans
- */
 const generalSans = localFont({
   src: [
     { path: "../../public/fonts/GeneralSans-Light.woff2",      weight: "300", style: "normal" },
@@ -32,7 +27,7 @@ export default function RootLayout({
   return (
     <html lang="es" className={generalSans.variable}>
       <head>
-        {/* Material Symbols Outlined — iconos via Google Fonts */}
+        {/* Material Symbols */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link

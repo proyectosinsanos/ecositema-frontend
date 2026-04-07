@@ -2,11 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─────────────────────────────────────────
-   Design Tokens — tema claro (default)
+/* Design Tokens — tema claro (default)
    Para dark mode: añadir [data-theme="dark"]
-   con los valores alternativos.
-───────────────────────────────────────── */
+   con los valores alternativos. */
 :root {
   /* Colores de marca */
   --color-primary:        #1a3a5c;
@@ -75,9 +73,7 @@
   --color-border-strong: #3d5166;
 }
 
-/* ─────────────────────────────────────────
-   Base global
-───────────────────────────────────────── */
+/* Base global */
 @layer base {
   html {
     color: var(--color-text);
@@ -92,9 +88,7 @@
   }
 }
 
-/* ─────────────────────────────────────────
-   Material Symbols helper
-───────────────────────────────────────── */
+/* Material Symbols helper*/
 .material-symbols-outlined {
   font-variation-settings:
     'FILL' 0,
