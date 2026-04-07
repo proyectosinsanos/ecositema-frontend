@@ -3,6 +3,8 @@ import Sidebar from '@/components/common/Sidebar/Sidebar';
 import SidebarDrawer from '@/components/common/Sidebar/SidebarDrawer';
 import ProductoBar from '@/components/common/ProductoBar/ProductoBar';
 import NotificationsDrawer from '@/components/common/Notifications/NotificationsDrawer';
+import MockInitializer from '@/components/common/MockInitializer';
+import MicroservicioFrame from '@/components/common/MicroservicioFrame';
 
 export default function DashboardLayout({
   children,
@@ -11,6 +13,7 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="flex h-screen overflow-hidden">
+      <MockInitializer />
 
       {/* Barra izquierda — microservicios del producto activo, altura completa */}
       <Sidebar />
@@ -25,8 +28,8 @@ export default function DashboardLayout({
           <SidebarDrawer />
 
           {/* Contenido de la página */}
-          <main className="flex-1 bg-surface p-6 overflow-auto">
-            {children}
+          <main className="flex-1 overflow-hidden">
+            <MicroservicioFrame fallback={children} />
           </main>
 
           {/* Drawer derecho — notificaciones */}

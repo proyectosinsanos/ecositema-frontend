@@ -5,9 +5,12 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { AUTH_ENDPOINTS } from '@/api/auth.endpoints';
 import { LoginDto } from '@/types/Auth/dto/Login.dto';
+import { useAuthStore } from '@/store/auth.store';
+import { MOCK_USUARIO, MOCK_EMPRESA, MOCK_PRODUCTOS } from '@/mocks/mock.data';
 
 export default function LoginForm() {
   const router = useRouter();
+  const { setUsuario, setEmpresa, setProductos } = useAuthStore();
   const [form, setForm] = useState<LoginDto>({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -25,11 +28,21 @@ export default function LoginForm() {
     setError('');
 
     try {
+      if (process.env.NEXT_PUBLIC_USE_MOCKS === 'true') {
+        // Modo mock: simular login exitoso con datos de prueba
+        await new Promise((r) => setTimeout(r, 600));
+        setUsuario(MOCK_USUARIO);
+        setEmpresa(MOCK_EMPRESA);
+        setProductos(MOCK_PRODUCTOS);
+        router.push('/dashboard');
+        return;
+      }
+
       // TODO: Reemplazar con llamada real a la API
       const res = await fetch(AUTH_ENDPOINTS.LOGIN, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        credentials: 'include', // cookies HttpOnly — no manejar tokens en frontend
+        credentials: 'include',
         body: JSON.stringify(form),
       });
 
@@ -39,7 +52,6 @@ export default function LoginForm() {
         return;
       }
 
-      // TODO: Redirigir al dashboard
       router.push('/dashboard');
     } catch {
       setError('Error de conexión. Verifica tu red e intenta de nuevo.');

@@ -18,7 +18,7 @@ function tiempoRelativo(fecha: string): string {
 
 export default function NotificationsDrawer() {
   const { notifOpen } = useUiStore();
-  const { notificaciones, marcarLeida, marcarTodasLeidas } = useNotificacionesStore();
+  const { notificaciones, marcarLeida, marcarTodasLeidas, eliminar } = useNotificacionesStore();
 
   const noLeidas = notificaciones.filter((n) => !n.leida).length;
 
@@ -29,6 +29,11 @@ export default function NotificationsDrawer() {
       method: 'PATCH',
       credentials: 'include',
     }).catch(() => {});
+  };
+
+  const handleEliminar = async (id: string) => {
+    eliminar(id);
+    // TODO: Reemplazar con llamada real a la API
   };
 
   const handleMarcarTodas = async () => {
@@ -69,22 +74,33 @@ export default function NotificationsDrawer() {
             </div>
           ) : (
             notificaciones.map((n) => (
-              <button
+              <div
                 key={n.id}
-                onClick={() => !n.leida && handleMarcarLeida(n.id)}
-                className={`flex items-start gap-3 w-full px-4 py-3 text-left border-b border-border last:border-0 transition-colors hover:bg-surface
+                className={`relative flex items-start gap-3 w-full px-4 py-3 border-b border-border last:border-0 group
                   ${!n.leida ? 'bg-primary/5' : ''}`}
               >
-                <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${!n.leida ? 'bg-primary' : 'bg-transparent'}`} />
+                <button
+                  onClick={() => !n.leida && handleMarcarLeida(n.id)}
+                  className="flex items-start gap-3 flex-1 text-left hover:bg-surface transition-colors min-w-0"
+                >
+                  <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${!n.leida ? 'bg-primary' : 'bg-transparent'}`} />
 
-                <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-                  <span className={`text-sm ${!n.leida ? 'font-semibold text-text' : 'font-medium text-text-muted'}`}>
-                    {n.titulo}
-                  </span>
-                  <span className="text-xs text-text-muted line-clamp-2">{n.mensaje}</span>
-                  <span className="text-xs text-text-muted mt-0.5">{tiempoRelativo(n.fecha)}</span>
-                </div>
-              </button>
+                  <div className="flex flex-col gap-0.5 min-w-0 flex-1">
+                    <span className={`text-sm ${!n.leida ? 'font-semibold text-text' : 'font-medium text-text-muted'}`}>
+                      {n.titulo}
+                    </span>
+                    <span className="text-xs text-text-muted line-clamp-2">{n.mensaje}</span>
+                    <span className="text-xs text-text-muted mt-0.5">{tiempoRelativo(n.fecha)}</span>
+                  </div>
+                </button>
+
+                <button
+                  onClick={() => handleEliminar(n.id)}
+                  className="shrink-0 mt-0.5 p-0.5 rounded text-text-muted hover:text-text hover:bg-surface transition-colors opacity-0 group-hover:opacity-100"
+                >
+                  <span className="material-symbols-outlined text-base leading-none">close</span>
+                </button>
+              </div>
             ))
           )}
         </div>

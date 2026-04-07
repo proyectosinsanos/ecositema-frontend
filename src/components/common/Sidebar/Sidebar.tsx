@@ -36,7 +36,7 @@ function SidebarItem({ icono, label, activo, onClick, href, external }: SidebarI
     return <a href={href} className={base}><span className="material-symbols-outlined text-[22px]">{icono}</span>{tooltip}</a>;
   }
   if (href) {
-    return <Link href={href} className={base}><span className="material-symbols-outlined text-[22px]">{icono}</span>{tooltip}</Link>;
+    return <Link href={href} onClick={onClick} className={base}><span className="material-symbols-outlined text-[22px]">{icono}</span>{tooltip}</Link>;
   }
   return (
     <button onClick={onClick} className={base}>
@@ -48,7 +48,7 @@ function SidebarItem({ icono, label, activo, onClick, href, external }: SidebarI
 
 export default function Sidebar() {
   const pathname = usePathname();
-  const { productoActivo } = useAuthStore();
+  const { productoActivo, microservicioActivo, setMicroservicioActivo } = useAuthStore();
   const { toggleSidebar } = useUiStore();
 
   const microserviciosActivos = MICROSERVICIOS.filter((m) =>
@@ -71,7 +71,8 @@ export default function Sidebar() {
             href={item.href}
             icono={item.icono}
             label={item.label}
-            activo={pathname === item.href}
+            activo={pathname === item.href && !microservicioActivo}
+            onClick={() => setMicroservicioActivo(null)}
           />
         ))}
       </nav>
@@ -84,10 +85,10 @@ export default function Sidebar() {
             {microserviciosActivos.map((m) => (
               <SidebarItem
                 key={m.key}
-                href={m.url}
                 icono={m.icono}
                 label={m.label}
-                external
+                activo={microservicioActivo?.key === m.key}
+                onClick={() => setMicroservicioActivo(m)}
               />
             ))}
           </div>

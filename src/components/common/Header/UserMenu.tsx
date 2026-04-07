@@ -11,7 +11,7 @@ interface UserMenuProps {
 export default function UserMenu({ isOpen, onToggle, onClose }: UserMenuProps) {
   const router  = useRouter();
   const ref     = useRef<HTMLDivElement>(null);
-  const { usuario, empresa, limpiar } = useAuthStore();
+  const { usuario, limpiar } = useAuthStore();
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
       if (ref.current && !ref.current.contains(e.target as Node)) {
@@ -40,14 +40,14 @@ export default function UserMenu({ isOpen, onToggle, onClose }: UserMenuProps) {
             className={`flex items-center gap-2 px-2 py-1.5 rounded-lg transition-colors
           ${isOpen ? 'bg-surface' : 'hover:bg-surface'}`}
         >
-          <div className="w-7 h-7 rounded-full bg-primary flex items-center justify-center shrink-0">
+          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0">
             <span className="text-white text-xs font-semibold">{inicial}</span>
           </div>
         </button>
         {/* Dropdown */}
         {isOpen && (
             <div className="absolute right-0 top-full mt-2 w-80 z-50">
-              <div className="bg-bg rounded-2xl border border-border p-3 shadow-lg">
+              <div className="bg-bg rounded-2xl border border-border p-4 shadow-lg">
 
                 {/* Banner + Avatar */}
                 <div className="relative pb-8">
@@ -61,10 +61,10 @@ export default function UserMenu({ isOpen, onToggle, onClose }: UserMenuProps) {
 
                 {/* Info del usuario */}
                 <div className="px-1 pb-3 border-b border-border-strong">
-                  <p className="text-[17px] font-extrabold text-text leading-snug">{nombreCompleto}</p>
+                  <p className="text-xl font-semibold text-text leading-snug">{nombreCompleto}</p>
                   <p className="text-sm text-info mt-0.5">{usuario?.email ?? ''}</p>
-                  {empresa && (
-                      <p className="text-xs text-text-muted mt-0.5">{empresa.name}</p>
+                  {usuario && (
+                      <p className="text-sm text-text-muted mt-0.5">ID: {usuario.id_usuario}</p>
                   )}
                 </div>
 
@@ -72,7 +72,7 @@ export default function UserMenu({ isOpen, onToggle, onClose }: UserMenuProps) {
                 <div className="pt-3">
                   <button
                       onClick={handleLogout}
-                      className="w-full py-2.5 rounded-full bg-primary hover:bg-primary-dark text-text-inverse text-sm font-bold transition-colors"
+                      className="w-full py-2.5 rounded-full bg-primary hover:bg-primary-dark text-text-inverse text-base font-semibold transition-colors"
                   >
                     Cerrar Sesión
                   </button>

@@ -12,6 +12,7 @@ const NAV_ITEMS = [
 
 export default function SidebarDrawer() {
   const pathname = usePathname();
+  const { microservicioActivo } = useAuthStore();
   const { sidebarOpen } = useUiStore();
 
   const itemActivo     = NAV_ITEMS.find((item) => item.href === pathname) ?? NAV_ITEMS[0];
@@ -24,32 +25,61 @@ export default function SidebarDrawer() {
     >
       <div className="w-60 h-full flex flex-col">
 
-        {/* Opción activa — ocupa el lugar del header, mismo alto que el Header */}
-        <div className="flex items-center gap-3 px-4 h-16 shrink-0 border-b border-border">
-          <span className="material-symbols-outlined text-primary text-[22px] shrink-0">
-            {itemActivo.icono}
-          </span>
-          <span className="text-primary font-semibold text-sm whitespace-nowrap">
-            {itemActivo.label}
-          </span>
-        </div>
+        {microservicioActivo ? (
+          <>
+            {/* Título del microservicio activo */}
+            <div className="flex items-center gap-3 px-4 h-16 shrink-0 border-b border-border">
+              <span className="material-symbols-outlined text-primary text-[22px] shrink-0">
+                {microservicioActivo.icono}
+              </span>
+              <span className="text-primary font-semibold text-sm whitespace-nowrap">
+                {microservicioActivo.label}
+              </span>
+            </div>
 
-        {/* Resto de opciones de navegación */}
-        <nav className="flex flex-col gap-1 px-3 pt-3">
-          {itemsRestantes.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-text-muted hover:bg-surface hover:text-text transition-colors whitespace-nowrap"
-            >
-              <span className="material-symbols-outlined text-[20px] shrink-0">{item.icono}</span>
-              {item.label}
-            </Link>
-          ))}
-        </nav>
+            {/* Opciones del microservicio */}
+            <nav className="flex flex-col gap-1 px-3 pt-3">
+              {microservicioActivo.menu.map((item) => (
+                <button
+                  key={item.label}
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-text-muted hover:bg-surface hover:text-text transition-colors whitespace-nowrap w-full text-left"
+                  // TODO: Implementar navegación interna del microservicio
+                >
+                  <span className="material-symbols-outlined text-[20px] shrink-0">{item.icono}</span>
+                  {item.label}
+                </button>
+              ))}
+            </nav>
+          </>
+        ) : (
+          <>
+            {/* Opción activa del ecosistema */}
+            <div className="flex items-center gap-3 px-4 h-16 shrink-0 border-b border-border">
+              <span className="material-symbols-outlined text-primary text-[22px] shrink-0">
+                {itemActivo.icono}
+              </span>
+              <span className="text-primary font-semibold text-sm whitespace-nowrap">
+                {itemActivo.label}
+              </span>
+            </div>
+
+            {/* Resto de rutas del ecosistema */}
+            <nav className="flex flex-col gap-1 px-3 pt-3">
+              {itemsRestantes.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-text-muted hover:bg-surface hover:text-text transition-colors whitespace-nowrap"
+                >
+                  <span className="material-symbols-outlined text-[20px] shrink-0">{item.icono}</span>
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          </>
+        )}
 
         <div className="flex-1" />
-
 
       </div>
     </div>
