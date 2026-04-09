@@ -12,11 +12,9 @@ export const MICROSERVICIOS: Microservicio[] = [
     icono: 'videocam',
     url:   process.env.NEXT_PUBLIC_URL_MICROSERVICIO_CISTEM_VISION ?? '',
     menu: [
-      { label: 'Cámaras',    icono: 'camera_indoor' },
-      { label: 'Alertas',    icono: 'notification_important' },
-      { label: 'Reportes',   icono: 'assessment' },
-      { label: 'Configuración', icono: 'settings' },
-      // TODO: Definir menú real con el equipo de Cistem Vision
+      { label: 'Home',      icono: 'home',          link: '/'          },
+      { label: 'Cámaras',   icono: 'camera_indoor', link: '/camaras'   },
+      { label: 'Evidencia', icono: 'videocam',       link: '/evidencia' },
     ],
   },
   // TODO: Registrar los demás microservicios del ecosistema

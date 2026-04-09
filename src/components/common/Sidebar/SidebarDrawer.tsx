@@ -42,8 +42,14 @@ export default function SidebarDrawer() {
               {microservicioActivo.menu.map((item) => (
                 <button
                   key={item.label}
+                  onClick={() => {
+                    const iframe = document.querySelector<HTMLIFrameElement>('iframe');
+                    iframe?.contentWindow?.postMessage(
+                      { type: 'NAVIGATE', link: item.link },
+                      microservicioActivo.url
+                    );
+                  }}
                   className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-text-muted hover:bg-surface hover:text-text transition-colors whitespace-nowrap w-full text-left"
-                  // TODO: Implementar navegación interna del microservicio
                 >
                   <span className="material-symbols-outlined text-[20px] shrink-0">{item.icono}</span>
                   {item.label}

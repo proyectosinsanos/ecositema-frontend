@@ -2,7 +2,10 @@
 
 import { useUiStore } from '@/store/ui.store';
 import { useNotificacionesStore } from '@/store/notificaciones.store';
+import { useAuthStore } from '@/store/auth.store';
 import { NOTIFICACIONES_ENDPOINTS } from '@/api/notificaciones.endpoints';
+import { MICROSERVICIOS } from '@/config/microservicios.config';
+import { Notificacion } from '@/types/models/Notificacion';
 
 function tiempoRelativo(fecha: string): string {
   const diff  = Date.now() - new Date(fecha).getTime();
@@ -16,19 +19,50 @@ function tiempoRelativo(fecha: string): string {
   return `hace ${dias}d`;
 }
 
+function OrigenNotificacion({ notificacion }: { notificacion: Notificacion }) {
+  if (!notificacion.microservicioKey) return null;
+
+  const microservicio = MICROSERVICIOS.find((m) => m.key === notificacion.microservicioKey);
+  if (!microservicio) return null;
+
+  return (
+    <span className="flex items-center gap-1 text-xs text-text-muted">
+      <span className="material-symbols-outlined text-[13px] leading-none">{microservicio.icono}</span>
+      {microservicio.label}
+    </span>
+  );
+}
+
 export default function NotificationsDrawer() {
   const { notifOpen } = useUiStore();
   const { notificaciones, marcarLeida, marcarTodasLeidas, eliminar } = useNotificacionesStore();
+  const { setMicroservicioActivo } = useAuthStore();
 
   const noLeidas = notificaciones.filter((n) => !n.leida).length;
 
-  const handleMarcarLeida = async (id: string) => {
-    marcarLeida(id);
-    // TODO: Reemplazar con llamada real a la API
-    await fetch(NOTIFICACIONES_ENDPOINTS.MARCAR_LEIDA(id), {
-      method: 'PATCH',
-      credentials: 'include',
-    }).catch(() => {});
+  const handleClick = async (n: Notificacion) => {
+    if (!n.leida) {
+      marcarLeida(n.id);
+      // TODO: Reemplazar con llamada real a la API
+      await fetch(NOTIFICACIONES_ENDPOINTS.MARCAR_LEIDA(n.id), {
+        method: 'PATCH',
+        credentials: 'include',
+      }).catch(() => {});
+    }
+
+    if (n.microservicioKey) {
+      const microservicio = MICROSERVICIOS.find((m) => m.key === n.microservicioKey);
+      if (microservicio) {
+        setMicroservicioActivo(microservicio);
+          if (n.link) {
+          const iframe = document.querySelector<HTMLIFrameElement>('iframe');
+          iframe?.contentWindow?.postMessage(
+            { type: 'NAVIGATE', link: n.link },
+            microservicio.url
+          );
+        }
+      }
+    }
   };
 
   const handleEliminar = async (id: string) => {
@@ -80,7 +114,7 @@ export default function NotificationsDrawer() {
                   ${!n.leida ? 'bg-primary/5' : ''}`}
               >
                 <button
-                  onClick={() => !n.leida && handleMarcarLeida(n.id)}
+                  onClick={() => handleClick(n)}
                   className="flex items-start gap-3 flex-1 text-left hover:bg-surface transition-colors min-w-0"
                 >
                   <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${!n.leida ? 'bg-primary' : 'bg-transparent'}`} />
@@ -90,7 +124,11 @@ export default function NotificationsDrawer() {
                       {n.titulo}
                     </span>
                     <span className="text-xs text-text-muted line-clamp-2">{n.mensaje}</span>
-                    <span className="text-xs text-text-muted mt-0.5">{tiempoRelativo(n.fecha)}</span>
+                    <div className="flex items-center gap-2 mt-1">
+                      <OrigenNotificacion notificacion={n} />
+                      {n.microservicioKey && <span className="text-xs text-text-muted">·</span>}
+                      <span className="text-xs text-text-muted">{tiempoRelativo(n.fecha)}</span>
+                    </div>
                   </div>
                 </button>
 
