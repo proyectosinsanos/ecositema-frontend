@@ -1,4 +1,4 @@
-oye en que formato envío los servicios para que el front sepa cuales son# Ecosistema — Cistem Labs
+# Ecosistema — Cistem Labs
 
 Shell frontend del ecosistema de microservicios de Cistem Labs. Actúa como contenedor principal que orquesta los productos y sus microservicios, cargando cada uno dentro de un `<iframe>` sin salir de la aplicación.
 
@@ -16,28 +16,65 @@ Shell frontend del ecosistema de microservicios de Cistem Labs. Actúa como cont
 ```
 src/
 ├── app/
-│   ├── (auth)/             # Login y recuperación de contraseña
-│   └── (dashboard)/        # Layout principal del ecosistema
-│       └── dashboard/      # Página de dashboard (por producto activo)
+│   ├── (auth)/                     # Login y recuperación de contraseña
+│   │   ├── login/
+│   │   │   └── Components/         # LoginForm
+│   │   └── recuperar-contrasena/
+│   │       ├── Components/         # RecuperarForm
+│   │       └── restablecer/
+│   │           └── Components/     # RestablecerForm
+│   └── (dashboard)/                # Layout principal del ecosistema
+│       └── dashboard/              # Página de dashboard (por producto activo)
 ├── components/
-│   └── common/
-│       ├── Header/         # Header, UserMenu, Notifications
-│       ├── Sidebar/        # Sidebar de microservicios, SidebarDrawer de navegación
-│       ├── Notifications/  # NotificationsDrawer
-│       ├── ProductoBar/    # Barra lateral de productos
-│       └── MicroservicioFrame.tsx  # Contenedor iframe para microservicios
+│   └── common/                     # index.ts — barrel de todos los componentes
+│       ├── Header/                 # Header, UserMenu, Notifications
+│       ├── Sidebar/                # Sidebar, SidebarDrawer
+│       ├── Notifications/          # NotificationsDrawer
+│       ├── ProductoBar/            # ProductoBar
+│       ├── MicroservicioFrame.tsx  # Contenedor iframe para microservicios
+│       └── MockInitializer.tsx     # Carga datos mock al montar
 ├── config/
-│   └── microservicios.config.ts   # Catálogo de microservicios registrados
+│   └── microservicios.config.ts    # Catálogo de microservicios registrados
 ├── store/
-│   ├── auth.store.ts       # Usuario, empresa, productos, microservicio activo
-│   ├── ui.store.ts         # Estado del sidebar y drawer de notificaciones
+│   ├── auth.store.ts               # Usuario, empresa, productos, microservicio activo
+│   ├── ui.store.ts                 # Estado del sidebar y drawer de notificaciones
 │   └── notificaciones.store.ts
 ├── types/
-│   ├── models/             # Entidades (Usuario, Empresa, Producto, Notificacion)
-│   └── Microservicio/      # Tipo, enum de keys
+│   ├── models/                     # Entidades completas de BD (Usuario, Empresa, Producto…)
+│   ├── Auth/dto/                   # DTOs de request: LoginDto, RecuperarContrasenaDto…
+│   ├── Usuario/dto/                # Response DTOs: UsuarioSesionDto
+│   ├── Empresa/
+│   │   ├── EmpresaType.enum.ts
+│   │   └── dto/                    # Response DTOs: EmpresaSesionDto
+│   ├── Microservicio/              # Microservicio.type, MicroservicioKey.enum
+│   └── Servicio/                   # ServicioName.enum
 ├── mocks/
-│   └── mock.data.ts        # Datos mock para desarrollo
-└── api/                    # Endpoints por recurso
+│   └── mock.data.ts                # Datos mock para desarrollo
+└── api/                            # Endpoints por recurso
+```
+
+Cada carpeta expone un `index.ts` (barrel file). Los imports siempre apuntan al directorio, nunca al archivo interno:
+
+```ts
+// correcto
+import { useAuthStore } from '@/store';
+import { LoginDto }     from '@/types/Auth';
+
+// evitar
+import { useAuthStore } from '@/store/auth.store';
+import { LoginDto }     from '@/types/Auth/dto/Login.dto';
+```
+
+### Response DTOs vs Modelos
+
+Los archivos en `types/models/` representan la entidad completa de BD. Los archivos en `types/[Entidad]/dto/` son proyecciones que el backend devuelve en endpoints específicos — solo los campos necesarios para ese caso de uso.
+
+```ts
+// Entidad completa (BD)
+Usuario { id_usuario, name, last_name, email, id_empresa, last_seen, created, updated, deleted }
+
+// Proyección de sesión (lo que devuelve /auth/me)
+UsuarioSesionDto { id_usuario, name, last_name, email }
 ```
 
 ## Layout
@@ -71,9 +108,10 @@ NEXT_PUBLIC_URL_MICROSERVICIO_CISTEM_VISION=http://localhost:3001
 ## Agregar un nuevo microservicio
 
 1. Agregar la key en `src/types/Microservicio/MicroservicioKey.enum.ts`
-2. Registrarlo en `src/config/microservicios.config.ts` con su `label`, `icono`, `url` y `menu`
-3. Agregar la variable de entorno `NEXT_PUBLIC_URL_MICROSERVICIO_<KEY>`
-4. Asignarlo al producto correspondiente en el backend (o en el mock)
+2. Agregar el mismo valor en `src/types/Servicio/ServicioName.enum.ts` (espejo para la BD)
+3. Registrarlo en `src/config/microservicios.config.ts` con su `label`, `icono`, `url` y `menu`
+4. Agregar la variable de entorno `NEXT_PUBLIC_URL_MICROSERVICIO_<KEY>` en `.env.local`
+5. Asignarlo al producto correspondiente en el backend (o en el mock)
 
 ## Modo mock
 
