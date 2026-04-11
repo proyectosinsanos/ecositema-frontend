@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useAuthStore } from '@/store/auth.store';
+import { useAuthStore } from '@/store';
 import Notifications from './Notifications';
 import UserMenu from './UserMenu';
 

@@ -1,9 +1,8 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useNotificacionesStore } from '@/store/notificaciones.store';
-import { useAuthStore }           from '@/store/auth.store';
-import { MOCK_NOTIFICACIONES, MOCK_USUARIO, MOCK_EMPRESA, MOCK_PRODUCTOS } from '@/mocks/mock.data';
+import { useNotificacionesStore, useAuthStore } from '@/store';
+import { MOCK_NOTIFICACIONES, MOCK_USUARIO, MOCK_EMPRESA, MOCK_PRODUCTOS } from '@/mocks';
 
 export default function MockInitializer() {
   const { setNotificaciones }                        = useNotificacionesStore();

@@ -1,4 +1,4 @@
-import { MicroservicioKey } from '@/types/Microservicio/MicroservicioKey.enum';
+import { MicroservicioKey } from '@/types/Microservicio';
 
 /**
  * Notificación del ecosistema.

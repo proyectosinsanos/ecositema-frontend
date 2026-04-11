@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { AUTH_ENDPOINTS } from '@/api/auth.endpoints';
-import { RestablecerContrasenaDto } from '@/types/Auth/dto/RestablecerContrasena.dto';
+import { AUTH_ENDPOINTS } from '@/api';
+import { RestablecerContrasenaDto } from '@/types/Auth';
 
 const REQUISITOS = [
   { label: 'Mínimo 8 caracteres',                        test: (v: string) => v.length >= 8 },

@@ -1,53 +1,36 @@
 import { create } from 'zustand';
-import { Usuario } from '@/types/models/Usuario';
-import { Empresa } from '@/types/models/Empresa';
-import { Producto } from '@/types/models/Producto';
-import { Microservicio } from '@/types/Microservicio/Microservicio.type';
-import { persist } from 'zustand/middleware';
+import { UsuarioSesionDto }  from '@/types/Usuario';
+import { EmpresaSesionDto }  from '@/types/Empresa';
+import { Producto }          from '@/types/models';
+import { Microservicio }     from '@/types/Microservicio';
 
 interface AuthState {
-  usuario:             Usuario | null;
-  empresa:             Empresa | null;
+  usuario:             UsuarioSesionDto | null;
+  empresa:             EmpresaSesionDto | null;
   productos:           Producto[];
   productoActivo:      Producto | null;
   microservicioActivo: Microservicio | null;
 
-  setUsuario:             (usuario: Usuario) => void;
-  setEmpresa:             (empresa: Empresa) => void;
+  setUsuario:             (usuario: UsuarioSesionDto) => void;
+  setEmpresa:             (empresa: EmpresaSesionDto) => void;
   setProductos:           (productos: Producto[]) => void;
   setProductoActivo:      (producto: Producto | null) => void;
   setMicroservicioActivo: (microservicio: Microservicio | null) => void;
   limpiar:                () => void;
 }
 
-export const useAuthStore = create<AuthState>()(
-  persist(
-    (set) => ({
-      usuario: null,
-      empresa: null,
-      productos: [],
-      productoActivo: null,
-      microservicioActivo: null,
+export const useAuthStore = create<AuthState>()((set) => ({
+  usuario:             null,
+  empresa:             null,
+  productos:           [],
+  productoActivo:      null,
+  microservicioActivo: null,
 
-      setUsuario: (usuario) => set({ usuario }),
-      setEmpresa: (empresa) => set({ empresa }),
-      setProductos: (productos) => set({ productos }),
-      setProductoActivo: (productoActivo) =>
-        set({ productoActivo, microservicioActivo: null }),
-      setMicroservicioActivo: (microservicioActivo) =>
-        set({ microservicioActivo }),
+  setUsuario:             (usuario)             => set({ usuario }),
+  setEmpresa:             (empresa)             => set({ empresa }),
+  setProductos:           (productos)           => set({ productos }),
+  setProductoActivo:      (productoActivo)      => set({ productoActivo, microservicioActivo: null }),
+  setMicroservicioActivo: (microservicioActivo) => set({ microservicioActivo }),
 
-      limpiar: () =>
-        set({
-          usuario: null,
-          empresa: null,
-          productos: [],
-          productoActivo: null,
-          microservicioActivo: null,
-        }),
-    }),
-    {
-      name: 'auth-storage', 
-    }
-  )
-);
+  limpiar: () => set({ usuario: null, empresa: null, productos: [], productoActivo: null, microservicioActivo: null }),
+}));

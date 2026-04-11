@@ -2,9 +2,8 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useAuthStore } from '@/store/auth.store';
-import { useUiStore } from '@/store/ui.store';
-import { MICROSERVICIOS } from '@/config/microservicios.config';
+import { useAuthStore, useUiStore } from '@/store';
+import { MICROSERVICIOS } from '@/config';
 
 const NAV_ITEMS = [
   { href: '/dashboard', label: 'Dashboard', icono: 'space_dashboard' },

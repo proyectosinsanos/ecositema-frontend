@@ -1,4 +1,4 @@
-import { EmpresaType } from '@/types/Empresa/EmpresaType.enum';
+import { EmpresaType } from '@/types/Empresa';
 
 export interface Empresa {
   id_empresa: number;

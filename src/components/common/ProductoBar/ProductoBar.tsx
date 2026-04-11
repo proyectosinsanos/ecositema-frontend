@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useAuthStore } from '@/store/auth.store';
+import { useAuthStore } from '@/store';
 
 export default function ProductoBar() {
   const { productos, productoActivo, setProductoActivo } = useAuthStore();

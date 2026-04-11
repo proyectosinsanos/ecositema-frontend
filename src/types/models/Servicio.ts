@@ -1,4 +1,4 @@
-import { ServicioName } from '@/types/Servicio/ServicioName.enum';
+import { ServicioName } from '@/types/Servicio';
 
 export interface Servicio {
   id_servicio: number;

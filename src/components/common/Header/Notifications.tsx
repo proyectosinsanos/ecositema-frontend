@@ -1,7 +1,6 @@
 'use client';
 
-import { useUiStore } from '@/store/ui.store';
-import { useNotificacionesStore } from '@/store/notificaciones.store';
+import { useUiStore, useNotificacionesStore } from '@/store';
 
 export default function Notifications() {
   const { notifOpen, toggleNotif } = useUiStore();

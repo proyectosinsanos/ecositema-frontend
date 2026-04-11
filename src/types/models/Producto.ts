@@ -1,4 +1,4 @@
-import { MicroservicioKey } from '@/types/Microservicio/MicroservicioKey.enum';
+import { MicroservicioKey } from '@/types/Microservicio';
 
 /**
  * Un producto es un conjunto de microservicios contratados por una empresa.

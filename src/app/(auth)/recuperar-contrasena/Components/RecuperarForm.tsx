@@ -3,8 +3,8 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { AUTH_ENDPOINTS } from '@/api/auth.endpoints';
-import { RecuperarContrasenaDto } from '@/types/Auth/dto/RecuperarContrasena.dto';
+import { AUTH_ENDPOINTS } from '@/api';
+import { RecuperarContrasenaDto } from '@/types/Auth';
 
 export default function RecuperarForm() {
   const [form, setForm] = useState<RecuperarContrasenaDto>({ email: '' });

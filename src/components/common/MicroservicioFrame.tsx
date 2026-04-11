@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuthStore } from '@/store/auth.store';
+import { useAuthStore } from '@/store';
 
 interface MicroservicioFrameProps {
   fallback: React.ReactNode;

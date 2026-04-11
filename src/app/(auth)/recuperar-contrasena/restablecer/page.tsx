@@ -1,5 +1,5 @@
 import { Suspense } from 'react';
-import RestablecerForm from './Components/RestablecerForm';
+import { RestablecerForm } from './Components';
 
 export default function RestablecerContrasenaPage() {
   return (

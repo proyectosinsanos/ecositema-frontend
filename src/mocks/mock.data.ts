@@ -1,30 +1,19 @@
-import { Usuario }      from '@/types/models/Usuario';
-import { Empresa }      from '@/types/models/Empresa';
-import { Producto }     from '@/types/models/Producto';
-import { Notificacion } from '@/types/models/Notificacion';
-import { EmpresaType }  from '@/types/Empresa/EmpresaType.enum';
-import { MicroservicioKey } from '@/types/Microservicio/MicroservicioKey.enum';
+import { UsuarioSesionDto }          from '@/types/Usuario';
+import { EmpresaSesionDto, EmpresaType } from '@/types/Empresa';
+import { Producto, Notificacion }    from '@/types/models';
+import { MicroservicioKey }          from '@/types/Microservicio';
 
-export const MOCK_USUARIO: Usuario = {
+export const MOCK_USUARIO: UsuarioSesionDto = {
   id_usuario: 1,
   name:       'Erick',
   last_name:  'Báez',
   email:      'ebaez@cistemlabs.io',
-  id_empresa: 1,
-  last_seen:  new Date().toISOString(),
-  created:    '2024-01-15T08:00:00.000Z',
-  updated:    '2025-04-01T10:00:00.000Z',
-  deleted:    null,
 };
 
-export const MOCK_EMPRESA: Empresa = {
-  id_empresa:  1,
-  name:        'Cistem Labs',
-  description: 'Plataforma de microservicios para gestión inteligente.',
-  type:        'TECNOLOGIA' as unknown as EmpresaType,
-  created_at:  '2023-06-01T00:00:00.000Z',
-  updated_at:  '2025-01-01T00:00:00.000Z',
-  deleted_at:  null,
+export const MOCK_EMPRESA: EmpresaSesionDto = {
+  id_empresa: 1,
+  name:       'Cistem Labs',
+  type:       'TECNOLOGIA' as unknown as EmpresaType,
 };
 
 export const MOCK_PRODUCTOS: Producto[] = [

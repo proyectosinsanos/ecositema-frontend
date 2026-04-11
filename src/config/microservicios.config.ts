@@ -1,5 +1,4 @@
-import { Microservicio } from '@/types/Microservicio/Microservicio.type';
-import { MicroservicioKey } from '@/types/Microservicio/MicroservicioKey.enum';
+import { Microservicio, MicroservicioKey } from '@/types/Microservicio';
 
 /**
  * Catálogo de microservicios del ecosistema.

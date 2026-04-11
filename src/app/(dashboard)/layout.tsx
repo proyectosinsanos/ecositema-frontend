@@ -1,10 +1,12 @@
-import Header from '@/components/common/Header/Header';
-import Sidebar from '@/components/common/Sidebar/Sidebar';
-import SidebarDrawer from '@/components/common/Sidebar/SidebarDrawer';
-import ProductoBar from '@/components/common/ProductoBar/ProductoBar';
-import NotificationsDrawer from '@/components/common/Notifications/NotificationsDrawer';
-import MockInitializer from '@/components/common/MockInitializer';
-import MicroservicioFrame from '@/components/common/MicroservicioFrame';
+import {
+  Header,
+  Sidebar,
+  SidebarDrawer,
+  ProductoBar,
+  NotificationsDrawer,
+  MockInitializer,
+  MicroservicioFrame,
+} from '@/components/common';
 
 export default function DashboardLayout({
   children,

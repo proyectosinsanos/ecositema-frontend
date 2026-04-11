@@ -1,8 +1,8 @@
 'use client';
 import { useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuthStore } from '@/store/auth.store';
-import { AUTH_ENDPOINTS } from '@/api/auth.endpoints';
+import { useAuthStore } from '@/store';
+import { AUTH_ENDPOINTS } from '@/api';
 interface UserMenuProps {
   isOpen: boolean;
   onToggle: () => void;

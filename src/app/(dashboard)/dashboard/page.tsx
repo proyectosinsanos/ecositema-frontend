@@ -1,6 +1,6 @@
 'use client';
 
-import { useAuthStore } from '@/store/auth.store';
+import { useAuthStore } from '@/store';
 
 export default function DashboardPage() {
   const { productoActivo } = useAuthStore();

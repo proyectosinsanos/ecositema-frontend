@@ -1,4 +1,4 @@
-# Ecosistema — Cistem Labs
+oye en que formato envío los servicios para que el front sepa cuales son# Ecosistema — Cistem Labs
 
 Shell frontend del ecosistema de microservicios de Cistem Labs. Actúa como contenedor principal que orquesta los productos y sus microservicios, cargando cada uno dentro de un `<iframe>` sin salir de la aplicación.
 

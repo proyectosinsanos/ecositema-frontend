@@ -1,4 +1,4 @@
-import RecuperarForm from './Components/RecuperarForm';
+import { RecuperarForm } from './Components';
 
 export default function RecuperarContrasenaPage() {
   return (

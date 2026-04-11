@@ -1,11 +1,9 @@
 'use client';
 
-import { useUiStore } from '@/store/ui.store';
-import { useNotificacionesStore } from '@/store/notificaciones.store';
-import { useAuthStore } from '@/store/auth.store';
-import { NOTIFICACIONES_ENDPOINTS } from '@/api/notificaciones.endpoints';
-import { MICROSERVICIOS } from '@/config/microservicios.config';
-import { Notificacion } from '@/types/models/Notificacion';
+import { useUiStore, useNotificacionesStore, useAuthStore } from '@/store';
+import { NOTIFICACIONES_ENDPOINTS } from '@/api';
+import { MICROSERVICIOS } from '@/config';
+import { Notificacion } from '@/types/models';
 
 function tiempoRelativo(fecha: string): string {
   const diff  = Date.now() - new Date(fecha).getTime();

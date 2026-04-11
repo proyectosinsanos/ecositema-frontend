@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { Notificacion } from '@/types/models/Notificacion';
+import { Notificacion } from '@/types/models';
 
 interface NotificacionesState {
   notificaciones: Notificacion[];
