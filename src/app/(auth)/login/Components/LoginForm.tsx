@@ -7,6 +7,7 @@ import { AUTH_ENDPOINTS } from '@/api/auth.endpoints';
 import { LoginDto } from '@/types/Auth/dto/Login.dto';
 import { useAuthStore } from '@/store/auth.store';
 import { MOCK_USUARIO, MOCK_EMPRESA, MOCK_PRODUCTOS } from '@/mocks/mock.data';
+import { log } from 'node:console';
 
 export default function LoginForm() {
   const router = useRouter();
@@ -38,7 +39,6 @@ export default function LoginForm() {
         return;
       }
 
-      // TODO: Reemplazar con llamada real a la API
       const res = await fetch(AUTH_ENDPOINTS.LOGIN, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -46,11 +46,29 @@ export default function LoginForm() {
         body: JSON.stringify(form),
       });
 
-      if (!res.ok) {
+      if(!res.ok) {
+        if(res.status === 401) {
+          setError('Correo o contraseña incorrectos');
+        } else if(res.status === 404)  {
+          setError('Usuario no encontrado');
+        } else {
+          setError('Error desconocido. Intenta de nuevo más tarde.');
+        }
+        setIsLoading(false);
+        return;
+      }
+
+      const data = await res.json();
+
+      setEmpresa(data.empresa);
+      setUsuario(data.usuario);
+      setProductos(data.productos);
+
+      /* if (!res.ok) {
         const data = await res.json().catch(() => ({}));
         setError(data.message ?? 'Correo o contraseña incorrectos');
         return;
-      }
+      } */
 
       router.push('/dashboard');
     } catch {
