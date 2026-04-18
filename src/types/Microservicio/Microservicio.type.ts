@@ -3,7 +3,7 @@ import { MicroservicioKey } from './MicroservicioKey.enum';
 export interface MenuItemMicroservicio {
   label: string;
   icono: string;
-  link:  string; // ruta interna del microservicio para postMessage
+  link:  string;
 }
 
 export interface Microservicio {

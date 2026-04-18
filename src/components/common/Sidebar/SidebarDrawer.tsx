@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { usePathname } from 'next/navigation';
 import { useAuthStore, useUiStore } from '@/store';
+import { navigateMicroservicio } from '@/lib/socket';
 
 const NAV_ITEMS = [
   { href: '/dashboard', label: 'Dashboard', icono: 'space_dashboard' },
@@ -12,7 +13,7 @@ const NAV_ITEMS = [
 
 export default function SidebarDrawer() {
   const pathname = usePathname();
-  const { microservicioActivo } = useAuthStore();
+  const { microservicioActivo, usuario } = useAuthStore();
   const { sidebarOpen } = useUiStore();
   const [linkActivo, setLinkActivo] = useState<string | null>(null);
 
@@ -47,11 +48,7 @@ export default function SidebarDrawer() {
                     key={item.label}
                     onClick={() => {
                       setLinkActivo(item.link);
-                      const iframe = document.querySelector<HTMLIFrameElement>('iframe');
-                      iframe?.contentWindow?.postMessage(
-                        { type: 'NAVIGATE', link: item.link },
-                        microservicioActivo.url
-                      );
+                      if (usuario) navigateMicroservicio(usuario.id_usuario, item.link);
                     }}
                     className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-colors whitespace-nowrap w-full text-left
                       ${activo

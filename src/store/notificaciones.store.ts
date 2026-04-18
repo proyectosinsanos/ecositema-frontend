@@ -4,6 +4,7 @@ import { Notificacion } from '@/types/models';
 interface NotificacionesState {
   notificaciones: Notificacion[];
   setNotificaciones: (notificaciones: Notificacion[]) => void;
+  agregar: (notificacion: Notificacion) => void;
   marcarLeida: (id: string) => void;
   marcarTodasLeidas: () => void;
   eliminar: (id: string) => void;
@@ -13,6 +14,9 @@ export const useNotificacionesStore = create<NotificacionesState>()((set) => ({
   notificaciones: [],
 
   setNotificaciones: (notificaciones) => set({ notificaciones }),
+
+  agregar: (notificacion) =>
+    set((state) => ({ notificaciones: [notificacion, ...state.notificaciones] })),
 
   marcarLeida: (id) =>
     set((state) => ({

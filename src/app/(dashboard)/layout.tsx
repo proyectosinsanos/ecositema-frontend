@@ -4,7 +4,8 @@ import {
   SidebarDrawer,
   ProductoBar,
   NotificationsDrawer,
-  MockInitializer,
+  SessionInitializer,
+  SocketInitializer,
   MicroservicioFrame,
 } from '@/components/common';
 
@@ -15,7 +16,8 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="flex h-screen overflow-hidden">
-      <MockInitializer />
+      <SessionInitializer />
+      <SocketInitializer />
 
       {/* Barra izquierda — microservicios del producto activo, altura completa */}
       <Sidebar />

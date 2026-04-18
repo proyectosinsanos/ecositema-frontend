@@ -3,6 +3,7 @@
 import { useUiStore, useNotificacionesStore, useAuthStore } from '@/store';
 import { NOTIFICACIONES_ENDPOINTS } from '@/api';
 import { MICROSERVICIOS } from '@/config';
+import { navigateMicroservicio } from '@/lib/socket';
 import { Notificacion } from '@/types/models';
 
 function tiempoRelativo(fecha: string): string {
@@ -34,7 +35,7 @@ function OrigenNotificacion({ notificacion }: { notificacion: Notificacion }) {
 export default function NotificationsDrawer() {
   const { notifOpen } = useUiStore();
   const { notificaciones, marcarLeida, marcarTodasLeidas, eliminar } = useNotificacionesStore();
-  const { setMicroservicioActivo } = useAuthStore();
+  const { setMicroservicioActivo, usuario } = useAuthStore();
 
   const noLeidas = notificaciones.filter((n) => !n.leida).length;
 
@@ -52,13 +53,7 @@ export default function NotificationsDrawer() {
       const microservicio = MICROSERVICIOS.find((m) => m.key === n.microservicioKey);
       if (microservicio) {
         setMicroservicioActivo(microservicio);
-          if (n.link) {
-          const iframe = document.querySelector<HTMLIFrameElement>('iframe');
-          iframe?.contentWindow?.postMessage(
-            { type: 'NAVIGATE', link: n.link },
-            microservicio.url
-          );
-        }
+        if (n.link && usuario) navigateMicroservicio(usuario.id_usuario, n.link);
       }
     }
   };
