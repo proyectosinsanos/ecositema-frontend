@@ -7,4 +7,5 @@ export const AUTH_ENDPOINTS = {
   REFRESH:                `${BASE}/auth/refresh`,
   RECUPERAR_CONTRASENA:   `${BASE}/auth/recuperar-contrasena`,
   RESTABLECER_CONTRASENA: `${BASE}/auth/restablecer-contrasena`,
+  IFRAME_TOKEN:           `${BASE}/auth/iframe-token`,
 } as const;
