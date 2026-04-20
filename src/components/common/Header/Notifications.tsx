@@ -12,9 +12,9 @@ export default function Notifications() {
     <button
       onClick={toggleNotif}
       className={`relative flex items-center justify-center w-9 h-9 rounded-lg transition-colors
-        ${notifOpen ? 'bg-surface' : 'hover:bg-surface'}`}
+        ${notifOpen ? 'bg-surface-muted' : 'hover:bg-surface-muted'}`}
     >
-      <span className="material-symbols-outlined text-[22px] text-text-muted">notifications</span>
+      <span className="material-symbols-outlined text-[22px] text-ink-muted">notifications</span>
 
       {noLeidas > 0 && (
         <span className="absolute -top-0.5 -right-0.5 min-w-[16px] h-4 px-1 rounded-full bg-error text-white text-[10px] font-bold flex items-center justify-center leading-none">

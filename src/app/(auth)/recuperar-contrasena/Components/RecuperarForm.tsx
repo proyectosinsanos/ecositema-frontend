@@ -18,7 +18,6 @@ export default function RecuperarForm() {
     setError('');
 
     try {
-      // TODO: Reemplazar con llamada real a la API
       const res = await fetch(AUTH_ENDPOINTS.RECUPERAR_CONTRASENA, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -46,15 +45,15 @@ export default function RecuperarForm() {
           <div className="w-14 h-14 rounded-full bg-secondary/10 flex items-center justify-center">
             <span className="material-symbols-outlined text-secondary text-[28px]">mark_email_read</span>
           </div>
-          <h3 className="text-lg font-semibold text-text">Revisa tu correo</h3>
-          <p className="text-sm text-text-muted max-w-xs">
-            Si <span className="font-medium text-text">{form.email}</span> está registrado,
+          <h3 className="text-lg font-semibold text-ink">Revisa tu correo</h3>
+          <p className="text-sm text-ink-muted max-w-xs">
+            Si <span className="font-medium text-ink">{form.email}</span> está registrado,
             recibirás un enlace para restablecer tu contraseña en los próximos minutos.
           </p>
         </div>
         <Link
           href="/login"
-          className="text-sm text-primary hover:text-primary-dark transition-colors"
+          className="text-sm text-primary-dark hover:text-primary-dark/70 transition-colors"
         >
           Volver al inicio de sesión
         </Link>
@@ -67,11 +66,11 @@ export default function RecuperarForm() {
 
       {/* Email */}
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="email" className="text-sm font-medium text-text">
+        <label htmlFor="email" className="text-sm font-medium text-ink">
           Correo electrónico
         </label>
         <div className="relative">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-text-muted pointer-events-none">
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-ink-muted pointer-events-none">
             mail
           </span>
           <input
@@ -86,7 +85,7 @@ export default function RecuperarForm() {
               if (error) setError('');
             }}
             placeholder="usuario@ejemplo.com"
-            className="w-full pl-10 pr-4 py-2.5 text-sm rounded-md border border-border bg-bg text-text placeholder:text-text-muted transition-colors focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+            className="w-full pl-10 pr-4 py-2.5 text-sm rounded-lg border border-line bg-surface-muted text-ink placeholder:text-ink-muted transition-colors focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30"
           />
         </div>
       </div>
@@ -102,7 +101,7 @@ export default function RecuperarForm() {
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full py-2.5 rounded-md bg-primary hover:bg-primary-dark disabled:opacity-60 disabled:cursor-not-allowed text-text-inverse font-semibold text-sm transition-colors"
+        className="w-full py-2.5 rounded-full bg-primary hover:bg-primary-dark disabled:opacity-60 disabled:cursor-not-allowed text-primary-ink font-semibold text-sm transition-colors"
       >
         {isLoading ? 'Enviando enlace...' : 'Enviar enlace de recuperación'}
       </button>
@@ -110,7 +109,7 @@ export default function RecuperarForm() {
       {/* Volver al login */}
       <Link
         href="/login"
-        className="flex items-center justify-center gap-1.5 text-sm text-text-muted hover:text-text transition-colors"
+        className="flex items-center justify-center gap-1.5 text-sm text-ink-muted hover:text-ink transition-colors"
       >
         <span className="material-symbols-outlined text-[18px]">arrow_back</span>
         Volver al inicio de sesión

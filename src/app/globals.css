@@ -10,9 +10,10 @@
   --font-general-sans: 'General Sans', system-ui, sans-serif;
 
   /* Colores de marca */
-  --color-primary:        #1a3a5c;
-  --color-primary-light:  #2a5a8c;
-  --color-primary-dark:   #102540;
+  --color-primary:        #bdd254;
+  --color-primary-light:  #cbde70;
+  --color-primary-dark:   #9fb43d;
+  --color-primary-ink:    #0b0f0a;
 
   --color-secondary:      #1d9e75;
   --color-secondary-light:#25c492;
@@ -29,6 +30,7 @@
 
   /* Texto */
   --color-text:           #111827;
+  --color-text-secondary: #374151;
   --color-text-muted:     #6b7280;
   --color-text-inverse:   #ffffff;
 

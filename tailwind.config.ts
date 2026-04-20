@@ -15,6 +15,7 @@ const config: Config = {
           DEFAULT: "var(--color-primary)",
           light:   "var(--color-primary-light)",
           dark:    "var(--color-primary-dark)",
+          ink:     "var(--color-primary-ink)",
         },
         secondary: {
           DEFAULT: "var(--color-secondary)",
@@ -26,17 +27,18 @@ const config: Config = {
           light:   "var(--color-accent-light)",
           dark:    "var(--color-accent-dark)",
         },
-        bg:      "var(--color-bg)",
         surface: {
-          DEFAULT: "var(--color-surface)",
+          DEFAULT: "var(--color-bg)",
+          muted:   "var(--color-surface)",
           alt:     "var(--color-surface-alt)",
         },
-        text: {
-          DEFAULT: "var(--color-text)",
-          muted:   "var(--color-text-muted)",
-          inverse: "var(--color-text-inverse)",
+        ink: {
+          DEFAULT:   "var(--color-text)",
+          secondary: "var(--color-text-secondary)",
+          muted:     "var(--color-text-muted)",
+          inverse:   "var(--color-text-inverse)",
         },
-        border: {
+        line: {
           DEFAULT: "var(--color-border)",
           strong:  "var(--color-border-strong)",
         },

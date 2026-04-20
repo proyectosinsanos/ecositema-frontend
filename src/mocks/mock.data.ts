@@ -19,7 +19,7 @@ export const MOCK_EMPRESA: EmpresaSesionDto = {
 export const MOCK_PRODUCTOS: Producto[] = [
   {
     id_producto:    1,
-    nombre:         'Cistem GAS',
+    nombre:         'AI-CistemGas',
     microservicios: [MicroservicioKey.CISTEM_VISION],
   },
   {

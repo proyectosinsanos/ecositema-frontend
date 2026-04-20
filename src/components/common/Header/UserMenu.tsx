@@ -37,34 +37,37 @@ export default function UserMenu({ isOpen, onToggle, onClose }: UserMenuProps) {
         {/* Botón avatar */}
         <button
             onClick={onToggle}
-            className={`flex items-center gap-2 px-2 py-1.5 rounded-lg transition-colors
-          ${isOpen ? 'bg-surface' : 'hover:bg-surface'}`}
+            className="group transition-transform hover:scale-95"
         >
-          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center shrink-0">
-            <span className="text-white text-xs font-semibold">{inicial}</span>
+          <div className={`w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0 transition-shadow
+            ${isOpen
+              ? 'shadow-[0_0_0_3px_rgba(189,210,84,0.35),0_0_12px_4px_rgba(189,210,84,0.25)]'
+              : 'group-hover:shadow-[0_0_0_3px_rgba(189,210,84,0.35),0_0_12px_4px_rgba(189,210,84,0.25)]'
+            }`}>
+            <span className="text-primary-ink text-sm font-bold">{inicial}</span>
           </div>
         </button>
         {/* Dropdown */}
         {isOpen && (
             <div className="absolute right-0 top-full mt-2 w-80 z-50">
-              <div className="bg-bg rounded-2xl border border-border p-4 shadow-lg">
+              <div className="bg-surface rounded-2xl border border-line p-4 shadow-lg">
 
                 {/* Banner + Avatar */}
                 <div className="relative pb-8">
                   <div className="h-24 rounded-xl overflow-hidden bg-gradient-to-br from-primary to-primary-dark" />
                   <div className="absolute bottom-0 left-3">
-                    <div className="w-16 h-16 rounded-full bg-primary border-4 border-bg flex items-center justify-center">
-                      <span className="text-text-inverse text-2xl font-bold">{inicial}</span>
+                    <div className="w-16 h-16 rounded-full bg-primary border-4 border-surface flex items-center justify-center">
+                      <span className="text-primary-ink text-2xl font-bold">{inicial}</span>
                     </div>
                   </div>
                 </div>
 
                 {/* Info del usuario */}
-                <div className="px-1 pb-3 border-b border-border-strong">
-                  <p className="text-xl font-semibold text-text leading-snug">{nombreCompleto}</p>
+                <div className="px-1 pb-3 border-b border-line-strong">
+                  <p className="text-xl font-semibold text-ink leading-snug">{nombreCompleto}</p>
                   <p className="text-sm text-info mt-0.5">{usuario?.email ?? ''}</p>
                   {usuario && (
-                      <p className="text-sm text-text-muted mt-0.5">ID: {usuario.id_usuario}</p>
+                      <p className="text-sm text-ink-muted mt-0.5">ID: {usuario.id_usuario}</p>
                   )}
                 </div>
 
@@ -72,7 +75,7 @@ export default function UserMenu({ isOpen, onToggle, onClose }: UserMenuProps) {
                 <div className="pt-3">
                   <button
                       onClick={handleLogout}
-                      className="w-full py-2.5 rounded-full bg-primary hover:bg-primary-dark text-text-inverse text-base font-semibold transition-colors"
+                      className="w-full py-2.5 rounded-full bg-primary hover:bg-primary-dark text-primary-ink text-base font-semibold transition-colors"
                   >
                     Cerrar Sesión
                   </button>

@@ -16,13 +16,14 @@ interface SidebarItemProps {
   onClick?: () => void;
   href?: string;
   external?: boolean;
+  rounded?: 'lg' | 'full';
 }
 
-function SidebarItem({ icono, label, activo, onClick, href, external }: SidebarItemProps) {
-  const base = `group relative flex items-center justify-center w-10 h-10 rounded-xl transition-colors
+function SidebarItem({ icono, label, activo, onClick, href, external, rounded = 'lg' }: SidebarItemProps) {
+  const base = `group relative flex items-center justify-center w-10 h-10 rounded-${rounded} transition-colors
     ${activo
-      ? 'bg-white/15 text-white'
-      : 'text-white/60 hover:bg-white/10 hover:text-white'
+      ? 'bg-primary text-primary-ink'
+      : 'text-black hover:bg-surface-muted hover:text-black'
     }`;
 
   const tooltip = (
@@ -31,16 +32,21 @@ function SidebarItem({ icono, label, activo, onClick, href, external }: SidebarI
     </span>
   );
 
+  const indicator = activo && (
+    <span className="absolute -left-3 top-1/2 -translate-y-1/2 w-1 h-6 bg-primary rounded-r-full" />
+  );
+
   if (href && external) {
-    return <a href={href} className={base}><span className="material-symbols-outlined text-[22px]">{icono}</span>{tooltip}</a>;
+    return <a href={href} className={base}><span className="material-symbols-outlined text-[22px]">{icono}</span>{tooltip}{indicator}</a>;
   }
   if (href) {
-    return <Link href={href} onClick={onClick} className={base}><span className="material-symbols-outlined text-[22px]">{icono}</span>{tooltip}</Link>;
+    return <Link href={href} onClick={onClick} className={base}><span className="material-symbols-outlined text-[22px]">{icono}</span>{tooltip}{indicator}</Link>;
   }
   return (
     <button onClick={onClick} className={base}>
       <span className="material-symbols-outlined text-[22px]">{icono}</span>
       {tooltip}
+      {indicator}
     </button>
   );
 }
@@ -55,12 +61,12 @@ export default function Sidebar() {
   );
 
   return (
-    <aside className="flex flex-col items-center w-16 bg-primary py-3 gap-2 shrink-0">
+    <aside className="flex flex-col items-center w-16 bg-surface border-r border-line py-3 gap-2 shrink-0">
 
       {/* Hamburguesa */}
-      <SidebarItem icono="menu" label="Menú" onClick={toggleSidebar} />
+      <SidebarItem icono="menu" label="Menú" onClick={toggleSidebar} rounded="full" />
 
-      <div className="w-8 h-px bg-white/10" />
+      <div className="w-8 h-px bg-line" />
 
       {/* Navegación principal del ecosistema */}
       <nav className="flex flex-col items-center gap-1">
@@ -79,7 +85,7 @@ export default function Sidebar() {
       {/* Microservicios del producto activo */}
       {microserviciosActivos.length > 0 && (
         <>
-          <div className="w-8 h-px bg-white/10" />
+          <div className="w-8 h-px bg-line" />
           <div className="flex flex-col items-center gap-1">
             {microserviciosActivos.map((m) => (
               <SidebarItem

@@ -14,7 +14,7 @@ export default function ProductoBar() {
   }, [productos, productoActivo, setProductoActivo]);
 
   return (
-    <aside className="flex flex-col items-center w-16 bg-bg border-l border-border py-3 gap-2 shrink-0">
+    <aside className="flex flex-col items-center w-16 bg-surface border-l border-line py-3 gap-2 shrink-0">
 
       {productos.map((producto) => {
         const activo = productoActivo?.id_producto === producto.id_producto;
@@ -27,8 +27,8 @@ export default function ProductoBar() {
             title={producto.nombre}
             className={`group relative flex items-center justify-center w-10 h-10 rounded-xl text-sm font-semibold transition-colors
               ${activo
-                ? 'bg-primary text-white'
-                : 'bg-surface text-text-muted hover:bg-primary/10 hover:text-primary'
+                ? 'bg-primary text-primary-ink'
+                : 'bg-surface-muted text-ink-muted hover:bg-primary/10 hover:text-primary-dark'
               }`}
           >
             {inicial}
@@ -44,7 +44,7 @@ export default function ProductoBar() {
       {/* Sin productos */}
       {productos.length === 0 && (
         <div className="group relative flex items-center justify-center w-10 h-10">
-          <span className="material-symbols-outlined text-[22px] text-border">inventory_2</span>
+          <span className="material-symbols-outlined text-[22px] text-line">inventory_2</span>
           <span className="pointer-events-none absolute right-full mr-3 px-2 py-1 rounded-md bg-gray-900 text-white text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-50">
             Sin productos
           </span>

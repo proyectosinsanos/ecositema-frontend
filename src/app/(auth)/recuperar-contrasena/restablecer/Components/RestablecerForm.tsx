@@ -38,14 +38,14 @@ export default function RestablecerForm() {
           <div className="w-14 h-14 rounded-full bg-error/10 flex items-center justify-center">
             <span className="material-symbols-outlined text-error text-[28px]">link_off</span>
           </div>
-          <h3 className="text-lg font-semibold text-text">Enlace inválido</h3>
-          <p className="text-sm text-text-muted">
+          <h3 className="text-lg font-semibold text-ink">Enlace inválido</h3>
+          <p className="text-sm text-ink-muted">
             Este enlace de recuperación no es válido o ha expirado.
           </p>
         </div>
         <Link
           href="/recuperar-contrasena"
-          className="text-sm text-primary hover:text-primary-dark transition-colors"
+          className="text-sm text-primary-dark hover:text-primary-dark/70 transition-colors"
         >
           Solicitar un nuevo enlace
         </Link>
@@ -72,7 +72,6 @@ export default function RestablecerForm() {
     const dto: RestablecerContrasenaDto = { token, password };
 
     try {
-      // TODO: Reemplazar con llamada real a la API
       const res = await fetch(AUTH_ENDPOINTS.RESTABLECER_CONTRASENA, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -98,11 +97,11 @@ export default function RestablecerForm() {
 
       {/* Nueva contraseña */}
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="password" className="text-sm font-medium text-text">
+        <label htmlFor="password" className="text-sm font-medium text-ink">
           Nueva contraseña
         </label>
         <div className="relative">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-text-muted pointer-events-none">
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-ink-muted pointer-events-none">
             lock
           </span>
           <input
@@ -117,13 +116,13 @@ export default function RestablecerForm() {
               if (error) setError('');
             }}
             placeholder="Crea una contraseña segura"
-            className="w-full pl-10 pr-10 py-2.5 text-sm rounded-md border border-border bg-bg text-text placeholder:text-text-muted transition-colors focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+            className="w-full pl-10 pr-10 py-2.5 text-sm rounded-lg border border-line bg-surface-muted text-ink placeholder:text-ink-muted transition-colors focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30"
           />
           <button
             type="button"
             onClick={() => setShowPassword(prev => !prev)}
             aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text transition-colors"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-muted hover:text-ink transition-colors"
           >
             <span className="material-symbols-outlined text-[20px]">
               {showPassword ? 'visibility_off' : 'visibility'}
@@ -131,17 +130,17 @@ export default function RestablecerForm() {
           </button>
         </div>
 
-        {/* Checklist de requisitos — visible mientras el usuario escribe */}
+        {/* Checklist de requisitos */}
         {password.length > 0 && (
           <ul className="flex flex-col gap-1 mt-1">
             {REQUISITOS.map(r => {
               const cumple = r.test(password);
               return (
                 <li key={r.label} className="flex items-center gap-1.5">
-                  <span className={`material-symbols-outlined text-[16px] transition-colors ${cumple ? 'text-secondary' : 'text-text-muted'}`}>
+                  <span className={`material-symbols-outlined text-[16px] transition-colors ${cumple ? 'text-secondary' : 'text-ink-muted'}`}>
                     {cumple ? 'check_circle' : 'radio_button_unchecked'}
                   </span>
-                  <span className={`text-xs transition-colors ${cumple ? 'text-secondary' : 'text-text-muted'}`}>
+                  <span className={`text-xs transition-colors ${cumple ? 'text-secondary' : 'text-ink-muted'}`}>
                     {r.label}
                   </span>
                 </li>
@@ -153,11 +152,11 @@ export default function RestablecerForm() {
 
       {/* Confirmar contraseña */}
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="confirmar" className="text-sm font-medium text-text">
+        <label htmlFor="confirmar" className="text-sm font-medium text-ink">
           Confirmar contraseña
         </label>
         <div className="relative">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-text-muted pointer-events-none">
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-ink-muted pointer-events-none">
             lock_reset
           </span>
           <input
@@ -172,13 +171,13 @@ export default function RestablecerForm() {
               if (error) setError('');
             }}
             placeholder="Repite la contraseña"
-            className="w-full pl-10 pr-10 py-2.5 text-sm rounded-md border border-border bg-bg text-text placeholder:text-text-muted transition-colors focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+            className="w-full pl-10 pr-10 py-2.5 text-sm rounded-lg border border-line bg-surface-muted text-ink placeholder:text-ink-muted transition-colors focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30"
           />
           <button
             type="button"
             onClick={() => setShowConfirmar(prev => !prev)}
             aria-label={showConfirmar ? 'Ocultar confirmación' : 'Mostrar confirmación'}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text transition-colors"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-muted hover:text-ink transition-colors"
           >
             <span className="material-symbols-outlined text-[20px]">
               {showConfirmar ? 'visibility_off' : 'visibility'}
@@ -194,11 +193,11 @@ export default function RestablecerForm() {
         </p>
       )}
 
-      {/* Submit — deshabilitado hasta que todos los requisitos se cumplan */}
+      {/* Submit */}
       <button
         type="submit"
         disabled={isLoading || !passwordValida(password)}
-        className="w-full py-2.5 rounded-md bg-primary hover:bg-primary-dark disabled:opacity-60 disabled:cursor-not-allowed text-text-inverse font-semibold text-sm transition-colors"
+        className="w-full py-2.5 rounded-full bg-primary hover:bg-primary-dark disabled:opacity-60 disabled:cursor-not-allowed text-primary-ink font-semibold text-sm transition-colors"
       >
         {isLoading ? 'Guardando...' : 'Restablecer contraseña'}
       </button>

@@ -29,7 +29,6 @@ export default function LoginForm() {
 
     try {
       if (process.env.NEXT_PUBLIC_USE_MOCKS === 'true') {
-        // Modo mock: simular login exitoso con datos de prueba
         await new Promise((r) => setTimeout(r, 600));
         setUsuario(MOCK_USUARIO);
         setEmpresa(MOCK_EMPRESA);
@@ -38,7 +37,6 @@ export default function LoginForm() {
         return;
       }
 
-      // TODO: Reemplazar con llamada real a la API
       const res = await fetch(AUTH_ENDPOINTS.LOGIN, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -65,11 +63,11 @@ export default function LoginForm() {
 
       {/* Email */}
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="email" className="text-sm font-medium text-text">
+        <label htmlFor="email" className="text-sm font-medium text-ink">
           Correo electrónico
         </label>
         <div className="relative">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-text-muted pointer-events-none">
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-ink-muted pointer-events-none">
             mail
           </span>
           <input
@@ -81,18 +79,18 @@ export default function LoginForm() {
             value={form.email}
             onChange={handleChange}
             placeholder="usuario@ejemplo.com"
-            className="w-full pl-10 pr-4 py-2.5 text-sm rounded-md border border-border bg-bg text-text placeholder:text-text-muted transition-colors focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+            className="w-full pl-10 pr-4 py-2.5 text-sm rounded-lg border border-line bg-surface-muted text-ink placeholder:text-ink-muted transition-colors focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30"
           />
         </div>
       </div>
 
       {/* Contraseña */}
       <div className="flex flex-col gap-1.5">
-        <label htmlFor="password" className="text-sm font-medium text-text">
+        <label htmlFor="password" className="text-sm font-medium text-ink">
           Contraseña
         </label>
         <div className="relative">
-          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-text-muted pointer-events-none">
+          <span className="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-ink-muted pointer-events-none">
             lock
           </span>
           <input
@@ -104,13 +102,13 @@ export default function LoginForm() {
             value={form.password}
             onChange={handleChange}
             placeholder="••••••••"
-            className="w-full pl-10 pr-10 py-2.5 text-sm rounded-md border border-border bg-bg text-text placeholder:text-text-muted transition-colors focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary"
+            className="w-full pl-10 pr-10 py-2.5 text-sm rounded-lg border border-line bg-surface-muted text-ink placeholder:text-ink-muted transition-colors focus:outline-none focus:border-primary focus:ring-2 focus:ring-primary/30"
           />
           <button
             type="button"
             onClick={() => setShowPassword(prev => !prev)}
             aria-label={showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-text-muted hover:text-text transition-colors"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-muted hover:text-ink transition-colors"
           >
             <span className="material-symbols-outlined text-[20px]">
               {showPassword ? 'visibility_off' : 'visibility'}
@@ -130,7 +128,7 @@ export default function LoginForm() {
       <button
         type="submit"
         disabled={isLoading}
-        className="w-full py-2.5 rounded-md bg-primary hover:bg-primary-dark disabled:opacity-60 disabled:cursor-not-allowed text-text-inverse font-semibold text-sm transition-colors"
+        className="w-full py-2.5 rounded-full bg-primary hover:bg-primary-dark disabled:opacity-60 disabled:cursor-not-allowed text-primary-ink font-semibold text-sm transition-colors"
       >
         {isLoading ? 'Iniciando sesión...' : 'Iniciar sesión'}
       </button>
@@ -138,7 +136,7 @@ export default function LoginForm() {
       {/* Olvidé mi contraseña */}
       <Link
         href="/recuperar-contrasena"
-        className="text-center text-sm text-primary hover:text-primary-dark transition-colors"
+        className="text-center text-sm text-primary-dark hover:text-primary-dark/70 transition-colors"
       >
         ¿Olvidaste tu contraseña?
       </Link>
