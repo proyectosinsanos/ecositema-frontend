@@ -19,14 +19,14 @@ export function connectSocket(userId: number): void {
   const s = getSocket();
   s.once('connect', () => {
     console.log('[socket] conectado, id:', s.id);
-    s.emit('join', { room: String(userId) });
+    s.emit('join_room', { id: userId, module: 'ECOSYSTEM' });
   });
   s.on('disconnect', (reason) => console.log('[socket] desconectado:', reason));
   if (!s.connected) {
     s.connect();
   } else {
     console.log('[socket] ya conectado, id:', s.id);
-    s.emit('join', { room: String(userId) });
+    s.emit('join_room', { id: userId, module: 'ECOSYSTEM' });
   }
 }
 
@@ -40,8 +40,4 @@ export function navigateMicroservicio(userId: number, link: string): void {
   const s = getSocket();
   console.log('[socket] emit NAVIGATE | connected:', s.connected, '| payload:', { room: String(userId), link });
   s.emit('NAVIGATE', { room: String(userId), link });
-}
-
-export function sendAuthToken(token: string, userId: number): void {
-  getSocket().emit('AUTH_TOKEN', { token, userId });
 }
