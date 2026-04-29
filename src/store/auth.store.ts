@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { UsuarioSesionDto }  from '@/types/Usuario';
 import { EmpresaSesionDto }  from '@/types/Empresa';
 import { Producto }          from '@/types/models';
-import { Microservicio }     from '@/types/Microservicio';
+import { Microservicio, MenuItemMicroservicio } from '@/types/Microservicio';
 
 interface AuthState {
   usuario:             UsuarioSesionDto | null;
@@ -16,6 +16,7 @@ interface AuthState {
   setProductos:           (productos: Producto[]) => void;
   setProductoActivo:      (producto: Producto | null) => void;
   setMicroservicioActivo: (microservicio: Microservicio | null) => void;
+  setMicroservicioMenu:   (menu: MenuItemMicroservicio[]) => void;
   limpiar:                () => void;
 }
 
@@ -31,6 +32,13 @@ export const useAuthStore = create<AuthState>()((set) => ({
   setProductos:           (productos)           => set({ productos }),
   setProductoActivo:      (productoActivo)      => set({ productoActivo, microservicioActivo: null }),
   setMicroservicioActivo: (microservicioActivo) => set({ microservicioActivo }),
+
+  setMicroservicioMenu: (menu) =>
+    set((state) =>
+      state.microservicioActivo
+        ? { microservicioActivo: { ...state.microservicioActivo, menu } }
+        : {}
+    ),
 
   limpiar: () => set({ usuario: null, empresa: null, productos: [], productoActivo: null, microservicioActivo: null }),
 }));

@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { useAuthStore, useUiStore } from '@/store';
 import { navigateMicroservicio } from '@/lib/socket';
+import { MenuItemMicroservicio } from '@/types/Microservicio';
 
 const NAV_ITEMS = [
   { href: '/dashboard', label: 'Dashboard', icono: 'space_dashboard' },
@@ -12,7 +13,7 @@ const NAV_ITEMS = [
 
 export default function SidebarDrawer() {
   const pathname = usePathname();
-  const { microservicioActivo, usuario } = useAuthStore();
+  const { microservicioActivo, usuario, setMicroservicioMenu } = useAuthStore();
   const { sidebarOpen } = useUiStore();
   const [linkActivo, setLinkActivo] = useState<string | null>(
     microservicioActivo?.menu[0]?.link ?? null
@@ -20,7 +21,17 @@ export default function SidebarDrawer() {
 
   useEffect(() => {
     setLinkActivo(microservicioActivo?.menu[0]?.link ?? null);
-  }, [microservicioActivo]);
+
+    if (!microservicioActivo) return;
+
+    fetch(`${microservicioActivo.url}/menu`, { credentials: 'include' })
+      .then((res) => res.json())
+      .then((menu: MenuItemMicroservicio[]) => {
+        setMicroservicioMenu(menu);
+        setLinkActivo(menu[0]?.link ?? null);
+      })
+      .catch(() => {});
+  }, [microservicioActivo?.key, setMicroservicioMenu]);
 
   const itemActivo     = NAV_ITEMS.find((item) => item.href === pathname) ?? NAV_ITEMS[0];
   const itemsRestantes = NAV_ITEMS.filter((item) => item.href !== itemActivo.href);
