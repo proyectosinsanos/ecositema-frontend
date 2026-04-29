@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 import { useAuthStore } from '@/store';
 import { AUTH_ENDPOINTS } from '@/api';
 import { IframeAuthMessage } from '@/types/Auth';
@@ -10,8 +10,15 @@ interface MicroservicioFrameProps {
 }
 
 export default function MicroservicioFrame({ fallback }: MicroservicioFrameProps) {
-  const { microservicioActivo, usuario } = useAuthStore();
+  const { microservicioActivo, usuario, navegacion, setNavegacion } = useAuthStore();
   const iframeRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    if (!navegacion || !iframeRef.current?.contentWindow || !microservicioActivo) return;
+    const targetOrigin = new URL(microservicioActivo.url).origin;
+    iframeRef.current.contentWindow.postMessage({ type: 'NAVIGATE', link: navegacion }, targetOrigin);
+    setNavegacion(null);
+  }, [navegacion, microservicioActivo, setNavegacion]);
 
   if (!microservicioActivo) {
     return <div className="h-full bg-surface p-6 overflow-auto">{fallback}</div>;

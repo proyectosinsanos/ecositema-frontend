@@ -10,6 +10,7 @@ interface AuthState {
   productos:           Producto[];
   productoActivo:      Producto | null;
   microservicioActivo: Microservicio | null;
+  navegacion:          string | null;
 
   setUsuario:             (usuario: UsuarioSesionDto) => void;
   setEmpresa:             (empresa: EmpresaSesionDto) => void;
@@ -17,6 +18,7 @@ interface AuthState {
   setProductoActivo:      (producto: Producto | null) => void;
   setMicroservicioActivo: (microservicio: Microservicio | null) => void;
   setMicroservicioMenu:   (menu: MenuItemMicroservicio[]) => void;
+  setNavegacion:          (link: string | null) => void;
   limpiar:                () => void;
 }
 
@@ -26,6 +28,7 @@ export const useAuthStore = create<AuthState>()((set) => ({
   productos:           [],
   productoActivo:      null,
   microservicioActivo: null,
+  navegacion:          null,
 
   setUsuario:             (usuario)             => set({ usuario }),
   setEmpresa:             (empresa)             => set({ empresa }),
@@ -39,6 +42,8 @@ export const useAuthStore = create<AuthState>()((set) => ({
         ? { microservicioActivo: { ...state.microservicioActivo, menu } }
         : {}
     ),
+
+  setNavegacion: (navegacion) => set({ navegacion }),
 
   limpiar: () => set({ usuario: null, empresa: null, productos: [], productoActivo: null, microservicioActivo: null }),
 }));

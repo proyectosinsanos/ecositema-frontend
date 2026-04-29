@@ -35,9 +35,3 @@ export function disconnectSocket(): void {
     socket.disconnect();
   }
 }
-
-export function navigateMicroservicio(userId: number, link: string): void {
-  const s = getSocket();
-  console.log('[socket] emit NAVIGATE | connected:', s.connected, '| payload:', { room: String(userId), link });
-  s.emit('NAVIGATE', { room: String(userId), link });
-}

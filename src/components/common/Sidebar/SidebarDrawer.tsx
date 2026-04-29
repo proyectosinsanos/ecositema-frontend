@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { useAuthStore, useUiStore } from '@/store';
-import { navigateMicroservicio } from '@/lib/socket';
 import { MenuItemMicroservicio } from '@/types/Microservicio';
 
 const NAV_ITEMS = [
@@ -13,7 +12,7 @@ const NAV_ITEMS = [
 
 export default function SidebarDrawer() {
   const pathname = usePathname();
-  const { microservicioActivo, usuario, setMicroservicioMenu } = useAuthStore();
+  const { microservicioActivo, usuario, setMicroservicioMenu, setNavegacion } = useAuthStore();
   const { sidebarOpen } = useUiStore();
   const [linkActivo, setLinkActivo] = useState<string | null>(
     microservicioActivo?.menu[0]?.link ?? null
@@ -64,7 +63,7 @@ export default function SidebarDrawer() {
                     key={item.label}
                     onClick={() => {
                       setLinkActivo(item.link);
-                      if (usuario) navigateMicroservicio(usuario.id_usuario, item.link);
+                      setNavegacion(item.link);
                     }}
                     className={`flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-colors whitespace-nowrap w-full text-left
                       ${activo
