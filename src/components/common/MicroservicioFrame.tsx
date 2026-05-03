@@ -36,11 +36,8 @@ export default function MicroservicioFrame({ fallback }: MicroservicioFrameProps
     // });
     // const { token } = await res.json();
 
-    const token = 'TODO_EPHEMERAL_TOKEN'; // reemplazar con la llamada al backend
-
     const message: IframeAuthMessage = {
       type: 'CISTEM_AUTH',
-      token,
       usuario: {
         id_usuario: usuario.id_usuario,
         name:       usuario.name,
@@ -49,7 +46,18 @@ export default function MicroservicioFrame({ fallback }: MicroservicioFrameProps
       },
     };
 
-    iframeRef.current.contentWindow.postMessage(message, targetOrigin);
+    const sign = await fetch(AUTH_ENDPOINTS.IFRAME_TOKEN, {
+      method: 'POST',
+      body: JSON.stringify(message),
+      headers: { 'Content-Type': 'application/json' }
+    })
+
+    if(!sign.ok) {
+      console.error('Error obteniendo token para iframe:', await sign.text());
+      return;
+    }
+
+    iframeRef.current.contentWindow.postMessage(JSON.parse(await sign.text()), targetOrigin);
   };
 
   return (

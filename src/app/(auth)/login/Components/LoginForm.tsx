@@ -45,10 +45,23 @@ export default function LoginForm() {
       });
 
       if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        setError(data.message ?? 'Correo o contraseña incorrectos');
+        if(res.status === 401)
+            setError('Correo o contraseña incorrectos. Intenta de nuevo.');
+        else if(res.status === 404)
+            setError('Usuario no encontrado. Verifica tu correo e intenta de nuevo.');
+        else
+            setError('Error al iniciar sesión. Intenta de nuevo más tarde.');
+        setIsLoading(false);
         return;
       }
+
+      const data = await res.json();
+
+      console.log(data);
+
+      setUsuario(data.usuario);
+      setEmpresa(data.empresa);
+      setProductos(data.productos);
 
       router.push('/dashboard');
     } catch {

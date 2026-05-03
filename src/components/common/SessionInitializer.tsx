@@ -21,7 +21,7 @@ export default function SessionInitializer() {
       return;
     }
 
-    fetch(AUTH_ENDPOINTS.ME, { credentials: 'include' })
+    fetch(AUTH_ENDPOINTS.ME, { credentials: 'include', method: 'POST' })
       .then((res) => {
         if (res.status === 401) {
           router.replace('/login');
