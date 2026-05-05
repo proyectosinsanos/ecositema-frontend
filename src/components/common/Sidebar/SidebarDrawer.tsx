@@ -23,13 +23,20 @@ export default function SidebarDrawer() {
 
     if (!microservicioActivo) return;
 
-    fetch(`${microservicioActivo.url}/menu`, { credentials: 'include' })
+    console.log(microservicioActivo.url);
+    
+
+    fetch(`${microservicioActivo.url}/menu`, { credentials: 'include', method: 'GET' })
       .then((res) => res.json())
       .then((menu: MenuItemMicroservicio[]) => {
         setMicroservicioMenu(menu);
         setLinkActivo(menu[0]?.link ?? null);
       })
-      .catch(() => {});
+      .catch((e) => {
+        console.error('Error fetching microservice menu:', e);
+        setMicroservicioMenu([]);
+        setLinkActivo(null);
+      });
   }, [microservicioActivo?.key, setMicroservicioMenu]);
 
   const itemActivo     = NAV_ITEMS.find((item) => item.href === pathname) ?? NAV_ITEMS[0];
