@@ -1,17 +1,32 @@
 'use client';
 
 import { useAuthStore } from '@/store';
-import StatCard         from './components/StatCard';
-import ActivityChart    from './components/ActivityChart';
-import AlertsBarChart   from './components/AlertsBarChart';
-import ServiceStatusList from './components/ServiceStatusList';
-import RecentAlerts     from './components/RecentAlerts';
+import StatCard               from './components/StatCard';
+import ServiciosPorHoraChart  from './components/ServiciosPorHoraChart';
+import ServiciosPorDiaChart   from './components/ServiciosPorDiaChart';
+import DispensarioChart       from './components/DispensarioChart';
+import DistribucionTiemposChart from './components/DistribucionTiemposChart';
+import TasaAtencionChart      from './components/TasaAtencionChart';
+import { kpis }               from './data/mock';
 
-// Icons
-function IconCamera() {
+function IconGas() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-      <path d="M23 7l-7 5 7 5V7z" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" />
+      <path d="M3 22V6a2 2 0 012-2h8a2 2 0 012 2v16"/><path d="M17 22V11l4-4v15"/><line x1="3" y1="22" x2="21" y2="22"/>
+    </svg>
+  );
+}
+function IconClock() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+    </svg>
+  );
+}
+function IconCheck() {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+      <path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/>
     </svg>
   );
 }
@@ -22,17 +37,10 @@ function IconAlert() {
     </svg>
   );
 }
-function IconUptime() {
+function IconUser() {
   return (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
-    </svg>
-  );
-}
-function IconUsers() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
-      <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
+      <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/>
     </svg>
   );
 }
@@ -43,65 +51,71 @@ export default function DashboardPage() {
   return (
     <div className="h-full overflow-y-auto p-6 bg-surface">
 
-      {/* Header */}
       <div className="mb-6">
         <h1 className="text-xl font-bold text-ink">Dashboard</h1>
         <p className="text-sm text-ink-muted mt-0.5">
-          {empresa?.name ?? 'Ecosistema'} — resumen del sistema
+          {empresa?.name ?? 'Ecosistema'} · Cistem Vision — resumen operativo
         </p>
       </div>
 
       {/* KPIs */}
-      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
+      <div className="grid grid-cols-2 xl:grid-cols-5 gap-4 mb-5">
         <StatCard
-          label="Cámaras activas"
-          value="18 / 20"
-          delta="2 offline"
-          deltaUp={false}
-          icon={<IconCamera />}
+          label="Servicios hoy"
+          value={kpis.serviciosHoy}
+          delta="vs ayer"
+          deltaUp={true}
+          icon={<IconGas />}
           accent="primary"
         />
         <StatCard
-          label="Alertas hoy"
-          value={9}
-          delta="vs ayer"
+          label="Servicios semana"
+          value={kpis.serviciosSemana.toLocaleString()}
+          icon={<IconGas />}
+          accent="info"
+        />
+        <StatCard
+          label="Tiempo promedio"
+          value={`${kpis.tiempoPromedioMin} min`}
+          delta="0.2 min"
+          deltaUp={false}
+          icon={<IconClock />}
+          accent="warning"
+        />
+        <StatCard
+          label="Tasa de atención"
+          value={`${kpis.tasaAtencion}%`}
+          delta="1.2%"
+          deltaUp={true}
+          icon={<IconCheck />}
+          accent="success"
+        />
+        <StatCard
+          label="Vehículos stuck"
+          value={kpis.vehiculosStuck}
+          delta="hoy"
           deltaUp={false}
           icon={<IconAlert />}
           accent="error"
         />
-        <StatCard
-          label="Uptime promedio"
-          value="99.2%"
-          delta="0.3%"
-          deltaUp={true}
-          icon={<IconUptime />}
-          accent="success"
-        />
-        <StatCard
-          label="Usuarios activos"
-          value={7}
-          delta="3 nuevos"
-          deltaUp={true}
-          icon={<IconUsers />}
-          accent="info"
-        />
       </div>
 
-      {/* Charts row */}
+      {/* Fila 2: hora pico + distribución */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-4">
         <div className="lg:col-span-2">
-          <ActivityChart />
+          <ServiciosPorHoraChart />
         </div>
-        <div>
-          <AlertsBarChart />
-        </div>
+        <DistribucionTiemposChart />
       </div>
 
-      {/* Bottom row */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <ServiceStatusList />
-        <RecentAlerts />
+      {/* Fila 3: dispensarios + día de semana */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+        <DispensarioChart />
+        <ServiciosPorDiaChart />
       </div>
+
+      {/* Fila 4: calidad de atención */}
+      <TasaAtencionChart />
 
     </div>
   );
