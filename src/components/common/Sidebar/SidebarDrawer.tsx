@@ -23,10 +23,7 @@ export default function SidebarDrawer() {
 
     if (!microservicioActivo) return;
 
-    console.log(microservicioActivo.url);
-    
-
-    fetch(`${microservicioActivo.url}/menu`, { credentials: 'include', method: 'GET' })
+    fetch(`${microservicioActivo.urlBackend}/menu`, { credentials: 'include', method: 'GET' })
       .then((res) => res.json())
       .then((menu: MenuItemMicroservicio[]) => {
         setMicroservicioMenu(menu);
