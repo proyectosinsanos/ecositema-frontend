@@ -6,7 +6,7 @@ export default function Notifications() {
   const { notifOpen, toggleNotif } = useUiStore();
   const { notificaciones } = useNotificacionesStore();
 
-  const noLeidas = notificaciones.filter((n) => !n.leida).length;
+  const noLeidas = notificaciones.filter((n) => !n.is_read).length;
 
   return (
     <button

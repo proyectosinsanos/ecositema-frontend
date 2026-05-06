@@ -5,9 +5,9 @@ interface NotificacionesState {
   notificaciones: Notificacion[];
   setNotificaciones: (notificaciones: Notificacion[]) => void;
   agregar: (notificacion: Notificacion) => void;
-  marcarLeida: (id: string) => void;
+  marcarLeida: (uuid: string) => void;
   marcarTodasLeidas: () => void;
-  eliminar: (id: string) => void;
+  eliminar: (uuid: string) => void;
 }
 
 export const useNotificacionesStore = create<NotificacionesState>()((set) => ({
@@ -18,20 +18,20 @@ export const useNotificacionesStore = create<NotificacionesState>()((set) => ({
   agregar: (notificacion) =>
     set((state) => ({ notificaciones: [notificacion, ...state.notificaciones] })),
 
-  marcarLeida: (id) =>
+  marcarLeida: (uuid) =>
     set((state) => ({
       notificaciones: state.notificaciones.map((n) =>
-        n.id === id ? { ...n, leida: true } : n
+        n.uuid === uuid ? { ...n, is_read: true } : n
       ),
     })),
 
   marcarTodasLeidas: () =>
     set((state) => ({
-      notificaciones: state.notificaciones.map((n) => ({ ...n, leida: true })),
+      notificaciones: state.notificaciones.map((n) => ({ ...n, is_read: true })),
     })),
 
-  eliminar: (id) =>
+  eliminar: (uuid) =>
     set((state) => ({
-      notificaciones: state.notificaciones.filter((n) => n.id !== id),
+      notificaciones: state.notificaciones.filter((n) => n.uuid !== uuid),
     })),
 }));

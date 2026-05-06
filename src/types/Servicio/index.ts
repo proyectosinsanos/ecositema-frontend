@@ -1,1 +1,1 @@
-export * from './ServicioName.enum';
+export * from './ServicioEnum.enum';

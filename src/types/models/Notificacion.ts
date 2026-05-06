@@ -1,15 +1,12 @@
-import { MicroservicioKey } from '@/types/Microservicio';
+import { ProductoEnum } from '@/types/Producto';
+import { ServicioEnum } from '@/types/Servicio';
 
-/**
- * Notificación del ecosistema.
- * TODO: Confirmar estructura con el backend cuando esté definida en la BD.
- */
 export interface Notificacion {
-  id:               string;
-  titulo:           string;
-  mensaje:          string;
-  leida:            boolean;
-  fecha:            string; // ISO 8601
-  microservicioKey?: MicroservicioKey; // microservicio de origen (ausente = ecosistema)
-  link?:            string;            // ruta interna del microservicio para deep link
+  uuid:     string;
+  title:    string;
+  message:  string;
+  producto: ProductoEnum;
+  servicio: ServicioEnum;
+  fecha:    string;
+  is_read:  boolean;
 }

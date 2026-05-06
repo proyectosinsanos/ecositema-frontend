@@ -1,8 +1,8 @@
-import { ServicioName } from '@/types/Servicio';
+import { ServicioEnum } from '@/types/Servicio';
 
 export interface Servicio {
   id_servicio: number;
-  name: ServicioName;
+  name: ServicioEnum;
   description: string;
   created: string;
   updated: string;
