@@ -50,16 +50,15 @@ export default function DashboardPage() {
 
   return (
     <div className="h-full overflow-y-auto p-6 bg-surface">
-
       <div className="mb-6">
-        <h1 className="text-xl font-bold text-ink">Dashboard</h1>
+        <h1 className="text-5xl font-bold text-ink">Dashboard</h1>
         <p className="text-sm text-ink-muted mt-0.5">
           {empresa?.name ?? 'Ecosistema'} · Cistem Vision — resumen operativo
         </p>
       </div>
 
       {/* KPIs */}
-      <div className="grid grid-cols-2 xl:grid-cols-5 gap-4 mb-5">
+      <div className="grid grid-cols-2 xl:grid-cols-4 gap-4 mb-5">
         <StatCard
           label="Servicios hoy"
           value={kpis.serviciosHoy}
@@ -67,12 +66,6 @@ export default function DashboardPage() {
           deltaUp={true}
           icon={<IconGas />}
           accent="primary"
-        />
-        <StatCard
-          label="Servicios semana"
-          value={kpis.serviciosSemana.toLocaleString()}
-          icon={<IconGas />}
-          accent="info"
         />
         <StatCard
           label="Tiempo promedio"
