@@ -43,6 +43,7 @@ export default function Header() {
 
       {/* Acciones del lado derecho */}
       <div className="flex items-center gap-4">
+        {/* TODO: integrar toggle de tema dark
         <button
           onClick={toggleTheme}
           className="flex items-center justify-center w-9 h-9 rounded-lg text-ink-muted hover:bg-surface-muted transition-colors"
@@ -52,6 +53,7 @@ export default function Header() {
             {theme === 'light' ? 'dark_mode' : 'light_mode'}
           </span>
         </button>
+        */}
         <Notifications />
         <UserMenu
           isOpen={userOpen}
