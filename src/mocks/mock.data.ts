@@ -3,7 +3,7 @@ import { EmpresaSesionDto, EmpresaType } from '@/types/Empresa';
 import { Producto, Notificacion }    from '@/types/models';
 import { MicroservicioKey }          from '@/types/Microservicio';
 import { ProductoEnum }              from '@/types/Producto';
-import { ServicioEnum }              from '@/types/Servicio';
+import { ServicioEnum } from '@/types/Servicio/ServicioEnum.enum';
 
 export const MOCK_USUARIO: UsuarioSesionDto = {
   id_usuario: 1,

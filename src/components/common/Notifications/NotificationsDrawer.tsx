@@ -3,6 +3,10 @@
 import { useUiStore, useNotificacionesStore } from '@/store';
 import { NOTIFICACIONES_ENDPOINTS } from '@/api';
 import { Notificacion } from '@/types/models';
+import { ServicioEnum } from '@/types/Servicio/ServicioEnum.enum';
+import { ProductoEnum } from '@/types/Producto';
+import { read } from 'fs';
+import { log } from 'util';
 
 function tiempoRelativo(fecha: string): string {
   const diff  = Date.now() - new Date(fecha).getTime();
@@ -22,25 +26,54 @@ export default function NotificationsDrawer() {
 
   const noLeidas = notificaciones.filter((n) => !n.is_read).length;
 
+  // NOTA:
+  // En esta sección del código se enrutan las notificaciones a acciones específicas dependiendo del producto y servicio.
+  // Esto es necesario porque las notificaciones viven en entornos aislados al hub principal, por lo que no puede marcarse solo 
+  // como leída, si no que es necesario enviar la acción de lectura a cada microservicio para que este actualice su estado interno
+
   const handleClick = async (n: Notificacion) => {
     if (!n.is_read) {
       marcarLeida(n.uuid);
-      await fetch(NOTIFICACIONES_ENDPOINTS.MARCAR_LEIDA(n.uuid), {
+
+      console.log(JSON.stringify(n));
+      
+      await fetch(NOTIFICACIONES_ENDPOINTS.MARCAR_LEIDA, {
+        body: JSON.stringify(n),
         method: 'PATCH',
         credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        }
       }).catch(() => {});
     }
   };
 
-  const handleEliminar = async (uuid: string) => {
-    eliminar(uuid);
+  const handleEliminar = async (n: Notificacion) => {
+    eliminar(n.uuid);
+    await fetch(NOTIFICACIONES_ENDPOINTS.MARCAR_LEIDA, {
+      body: JSON.stringify(n),
+      method: 'PATCH',
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      }
+    }).catch(() => {});
   };
 
   const handleMarcarTodas = async () => {
     marcarTodasLeidas();
+
+    console.log((notificaciones.filter(n => !n.is_read)));
+
     await fetch(NOTIFICACIONES_ENDPOINTS.MARCAR_TODAS, {
+      body: JSON.stringify({
+        notificaciones: notificaciones.filter((n) => !n.is_read)
+      }),
       method: 'PATCH',
       credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      }
     }).catch(() => {});
   };
 
@@ -98,7 +131,7 @@ export default function NotificationsDrawer() {
                 </button>
 
                 <button
-                  onClick={() => handleEliminar(n.uuid)}
+                  onClick={() => handleEliminar(n)}
                   className="shrink-0 mt-0.5 p-0.5 rounded text-ink-muted hover:text-ink hover:bg-surface-muted transition-colors opacity-0 group-hover:opacity-100"
                 >
                   <span className="material-symbols-outlined text-base leading-none">close</span>
