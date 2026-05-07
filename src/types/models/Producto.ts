@@ -10,6 +10,7 @@ export interface Producto {
   id_producto:   number;
   nombre:        string;
   microservicios: MicroservicioKey[];
-  logoIcono?:    string; // ruta en /public para el ícono cuadrado (sidebar)
-  logoCompleto?: string; // ruta en /public para el logo horizontal (header)
+  logoIcono?:      string; // ruta en /public para el ícono cuadrado (sidebar)
+  logoCompleto?:   string; // ruta en /public para el logo horizontal (header, light)
+  logoCompletoDark?: string; // ruta en /public para el logo horizontal en dark mode
 }

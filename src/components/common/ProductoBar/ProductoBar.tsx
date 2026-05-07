@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import Image from 'next/image';
 import { useAuthStore } from '@/store';
+import { assetUrl } from '@/lib/assets';
 
 export default function ProductoBar() {
   const { productos, productoActivo, setProductoActivo } = useAuthStore();
@@ -31,7 +32,7 @@ export default function ProductoBar() {
           >
             {producto.logoIcono ? (
               <Image
-                src={producto.logoIcono}
+                src={assetUrl(producto.logoIcono)!}
                 alt={producto.nombre}
                 width={48}
                 height={48}

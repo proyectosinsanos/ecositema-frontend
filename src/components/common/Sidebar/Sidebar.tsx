@@ -1,5 +1,7 @@
 'use client';
 
+'use client';
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
@@ -19,11 +21,12 @@ interface SidebarItemProps {
   href?: string;
   external?: boolean;
   rounded?: 'lg' | 'full';
+  darkMode?: boolean;
 }
 
-function SidebarItem({ icono, logoIcono, label, activo, onClick, href, external, rounded = 'lg' }: SidebarItemProps) {
+function SidebarItem({ icono, logoIcono, label, activo, onClick, href, external, rounded = 'lg', darkMode }: SidebarItemProps) {
   const base = `group relative flex items-center justify-center w-10 h-10 rounded-${rounded} transition-all
-    ${activo ? 'bg-primary text-primary-ink' : 'text-black hover:bg-surface-muted hover:text-black'}`;
+    ${activo ? 'bg-primary text-primary-ink' : 'text-ink hover:bg-surface-muted hover:text-ink'}`;
 
   const iconEl = logoIcono ? (
     <Image
@@ -32,6 +35,7 @@ function SidebarItem({ icono, logoIcono, label, activo, onClick, href, external,
       width={28}
       height={28}
       className="w-7 h-7 object-contain transition-transform duration-200 hover:scale-110"
+      style={darkMode ? { filter: 'brightness(0) invert(1)' } : undefined}
     />
   ) : (
     <span
@@ -71,7 +75,7 @@ function SidebarItem({ icono, logoIcono, label, activo, onClick, href, external,
 export default function Sidebar() {
   const pathname = usePathname();
   const { productoActivo, microservicioActivo, setMicroservicioActivo } = useAuthStore();
-  const { toggleSidebar } = useUiStore();
+  const { toggleSidebar, theme } = useUiStore();
 
   const microserviciosActivos = MICROSERVICIOS.filter((m) =>
     productoActivo?.microservicios.includes(m.key)
@@ -112,6 +116,7 @@ export default function Sidebar() {
                 label={m.label}
                 activo={microservicioActivo?.key === m.key}
                 onClick={() => setMicroservicioActivo(m)}
+                darkMode={theme === 'dark'}
               />
             ))}
           </div>

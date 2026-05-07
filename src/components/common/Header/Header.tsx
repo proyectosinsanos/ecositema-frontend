@@ -1,12 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import { useAuthStore } from '@/store';
+import { useAuthStore, useUiStore } from '@/store';
+import { assetUrl } from '@/lib/assets';
 import Notifications from './Notifications';
 import UserMenu from './UserMenu';
 
 export default function Header() {
   const { productoActivo } = useAuthStore();
+  const { theme, toggleTheme } = useUiStore();
   const [userOpen, setUserOpen] = useState(false);
 
   return (
@@ -18,7 +20,7 @@ export default function Header() {
           productoActivo.logoCompleto ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src="/AicistemgasHeader.svg"
+              src={assetUrl(theme === 'dark' ? productoActivo.logoCompletoDark : productoActivo.logoCompleto)!}
               alt={productoActivo.nombre}
               className="h-14 w-auto object-contain"
             />
@@ -41,6 +43,15 @@ export default function Header() {
 
       {/* Acciones del lado derecho */}
       <div className="flex items-center gap-4">
+        <button
+          onClick={toggleTheme}
+          className="flex items-center justify-center w-9 h-9 rounded-lg text-ink-muted hover:bg-surface-muted transition-colors"
+          title={theme === 'light' ? 'Modo oscuro' : 'Modo claro'}
+        >
+          <span className="material-symbols-outlined text-[22px]">
+            {theme === 'light' ? 'dark_mode' : 'light_mode'}
+          </span>
+        </button>
         <Notifications />
         <UserMenu
           isOpen={userOpen}

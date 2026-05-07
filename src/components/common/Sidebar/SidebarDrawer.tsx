@@ -7,7 +7,7 @@ import { useAuthStore, useUiStore } from '@/store';
 import { MenuItemMicroservicio } from '@/types/Microservicio';
 
 const NAV_ITEMS = [
-  { href: '/dashboard', label: 'Dashboard', icono: 'space_dashboard' },
+  { href: '/dashboard', label: 'Dashboard', icono: 'dashboard' },
 ] as const;
 
 export default function SidebarDrawer() {
@@ -50,7 +50,7 @@ export default function SidebarDrawer() {
           <>
             {/* Título del microservicio activo */}
             <div className="flex items-center gap-3 px-4 h-16 shrink-0 border-b border-line">
-              <span className="material-symbols-outlined text-ink text-[22px] shrink-0 bg-surface-alt p-1.5 rounded-lg">
+              <span className="material-symbols-outlined text-ink dark:text-white text-[22px] shrink-0 bg-surface-alt p-1.5 rounded-lg">
                 {microservicioActivo.icono}
               </span>
               <span className="text-ink font-bold text-base whitespace-nowrap">
@@ -72,7 +72,7 @@ export default function SidebarDrawer() {
                     className={`flex items-center gap-3 px-3 py-2.5 text-sm font-medium transition-colors whitespace-nowrap w-full text-left
                       ${activo
                         ? 'bg-primary text-primary-ink rounded-lg'
-                        : 'text-gray-700 hover:bg-surface-alt hover:text-ink rounded-xl'
+                        : 'text-ink hover:bg-surface-alt hover:text-ink rounded-xl'
                       }`}
                   >
                     <span className="material-symbols-outlined text-[20px] shrink-0">{item.icono}</span>
@@ -86,7 +86,7 @@ export default function SidebarDrawer() {
           <>
             {/* Opción activa del ecosistema */}
             <div className="flex items-center gap-3 px-4 h-16 shrink-0 border-b border-line">
-              <span className="material-symbols-outlined text-ink text-[22px] shrink-0 bg-surface-alt p-1.5 rounded-lg">
+              <span className="material-symbols-outlined text-ink dark:text-white text-[22px] shrink-0 bg-surface-alt p-1.5 rounded-lg">
                 {itemActivo.icono}
               </span>
               <span className="text-ink font-bold text-base whitespace-nowrap">
@@ -100,7 +100,7 @@ export default function SidebarDrawer() {
                 <Link
                   key={item.href}
                   href={item.href}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-gray-700 hover:bg-surface-alt hover:text-ink transition-colors whitespace-nowrap"
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium text-ink hover:bg-surface-alt hover:text-ink transition-colors whitespace-nowrap"
                 >
                   <span className="material-symbols-outlined text-[20px] shrink-0">{item.icono}</span>
                   {item.label}

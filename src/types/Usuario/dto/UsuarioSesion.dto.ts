@@ -7,4 +7,5 @@ export interface UsuarioSesionDto {
   name:       string;
   last_name:  string;
   email:      string;
+  avatar?:    string; // URL de la foto de perfil
 }

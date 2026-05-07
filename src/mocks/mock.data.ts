@@ -23,8 +23,9 @@ export const MOCK_PRODUCTOS: Producto[] = [
     id_producto:    1,
     nombre:         'AI-CistemGas',
     microservicios: [MicroservicioKey.CISTEM_VISION],
-    logoIcono:      '/CistemGasIcono.svg',
-    logoCompleto:   '/CistemGasLogo.svg',
+    logoIcono:        '/CistemGasIcono.svg',
+    logoCompleto:     '/CistemGasLogo.svg',
+    logoCompletoDark: '/AicistemgasHeaderDark.svg',
   },
   {
     id_producto:    2,
