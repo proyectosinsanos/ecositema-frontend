@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import Image from 'next/image';
 import { useAuthStore } from '@/store';
 
 export default function ProductoBar() {
@@ -25,13 +26,22 @@ export default function ProductoBar() {
             key={producto.id_producto}
             onClick={() => setProductoActivo(producto)}
             title={producto.nombre}
-            className={`group relative flex items-center justify-center w-10 h-10 rounded-xl text-sm font-semibold transition-colors
-              ${activo
-                ? 'bg-primary text-primary-ink'
-                : 'bg-surface-muted text-ink-muted hover:bg-primary/10 hover:text-primary-dark'
-              }`}
+            className={`group relative flex items-center justify-center w-full transition-all
+              ${activo ? '' : 'opacity-50 hover:opacity-100'}`}
           >
-            {inicial}
+            {producto.logoIcono ? (
+              <Image
+                src={producto.logoIcono}
+                alt={producto.nombre}
+                width={48}
+                height={48}
+                className="w-12 h-12 object-contain transition-transform duration-200 hover:scale-110"
+              />
+            ) : (
+              <span className={`w-12 h-12 rounded-xl flex items-center justify-center text-sm font-semibold ${activo ? 'bg-primary text-primary-ink' : 'bg-surface-muted text-ink-muted'}`}>
+                {inicial}
+              </span>
+            )}
 
             {/* Tooltip hacia la izquierda */}
             <span className="pointer-events-none absolute right-full mr-3 px-2 py-1 rounded-md bg-gray-900 text-white text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-50">

@@ -15,16 +15,23 @@ export default function Header() {
       {/* Producto activo */}
       <div className="flex items-center gap-3">
         {productoActivo ? (
-          <>
-            <div className="w-11 h-11 rounded-xl bg-primary flex items-center justify-center shrink-0">
-              <span className="text-primary-ink text-lg font-bold">
-                {productoActivo.nombre.charAt(0).toUpperCase()}
-              </span>
-            </div>
-            <span className="text-xl font-bold text-ink">
-              {productoActivo.nombre}
-            </span>
-          </>
+          productoActivo.logoCompleto ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src="/AicistemgasHeader.svg"
+              alt={productoActivo.nombre}
+              className="h-14 w-auto object-contain"
+            />
+          ) : (
+            <>
+              <div className="w-11 h-11 rounded-xl bg-primary flex items-center justify-center shrink-0">
+                <span className="text-primary-ink text-lg font-bold">
+                  {productoActivo.nombre.charAt(0).toUpperCase()}
+                </span>
+              </div>
+              <span className="text-xl font-bold text-ink">{productoActivo.nombre}</span>
+            </>
+          )
         ) : (
           <span className="text-base font-semibold text-ink-muted">
             Selecciona un producto

@@ -6,9 +6,10 @@ import { Microservicio, MicroservicioKey } from '@/types/Microservicio';
  */
 export const MICROSERVICIOS: Microservicio[] = [
   {
-    key:   MicroservicioKey.CISTEM_VISION,
-    label: 'Cistem Vision',
-    icono: 'videocam',
+    key:       MicroservicioKey.CISTEM_VISION,
+    label:     'Cistem Vision',
+    icono:     'videocam',
+    logoIcono: '/CistemVisonIcono.svg',
     url:        process.env.NEXT_PUBLIC_URL_MICROSERVICIO_CISTEM_VISION ?? '',
     urlBackend: process.env.NEXT_PUBLIC_API_MICROSERVICIO_CISTEM_VISION ?? '',
     menu:       [],

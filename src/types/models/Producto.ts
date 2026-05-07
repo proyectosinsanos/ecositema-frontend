@@ -7,7 +7,9 @@ import { MicroservicioKey } from '@/types/Microservicio';
  * TODO: Confirmar estructura con el backend cuando esté definida en la BD.
  */
 export interface Producto {
-  id_producto: number;
-  nombre: string;
+  id_producto:   number;
+  nombre:        string;
   microservicios: MicroservicioKey[];
+  logoIcono?:    string; // ruta en /public para el ícono cuadrado (sidebar)
+  logoCompleto?: string; // ruta en /public para el logo horizontal (header)
 }

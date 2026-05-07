@@ -1,8 +1,11 @@
 'use client';
 import { useRef, useEffect } from 'react';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/store';
 import { AUTH_ENDPOINTS } from '@/api';
+
+const AVATAR = '/user.jpeg';
 interface UserMenuProps {
   isOpen: boolean;
   onToggle: () => void;
@@ -39,12 +42,12 @@ export default function UserMenu({ isOpen, onToggle, onClose }: UserMenuProps) {
             onClick={onToggle}
             className="group transition-transform hover:scale-95"
         >
-          <div className={`w-10 h-10 rounded-full bg-primary flex items-center justify-center shrink-0 transition-shadow
+          <div className={`w-10 h-10 rounded-full overflow-hidden shrink-0 transition-shadow
             ${isOpen
               ? 'shadow-[0_0_0_3px_rgba(189,210,84,0.35),0_0_12px_4px_rgba(189,210,84,0.25)]'
               : 'group-hover:shadow-[0_0_0_3px_rgba(189,210,84,0.35),0_0_12px_4px_rgba(189,210,84,0.25)]'
             }`}>
-            <span className="text-primary-ink text-sm font-bold">{inicial}</span>
+            <Image src={AVATAR} alt={nombreCompleto} width={40} height={40} className="w-full h-full object-cover" />
           </div>
         </button>
         {/* Dropdown */}
@@ -56,8 +59,8 @@ export default function UserMenu({ isOpen, onToggle, onClose }: UserMenuProps) {
                 <div className="relative pb-8">
                   <div className="h-24 rounded-xl overflow-hidden bg-gradient-to-br from-primary to-primary-dark" />
                   <div className="absolute bottom-0 left-3">
-                    <div className="w-16 h-16 rounded-full bg-primary border-4 border-surface flex items-center justify-center">
-                      <span className="text-primary-ink text-2xl font-bold">{inicial}</span>
+                    <div className="w-16 h-16 rounded-full overflow-hidden border-4 border-surface">
+                      <Image src={AVATAR} alt={nombreCompleto} width={64} height={64} className="w-full h-full object-cover" />
                     </div>
                   </div>
                 </div>

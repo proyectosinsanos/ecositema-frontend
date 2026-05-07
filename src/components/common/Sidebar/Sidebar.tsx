@@ -1,16 +1,18 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useAuthStore, useUiStore } from '@/store';
 import { MICROSERVICIOS } from '@/config';
 
 const NAV_ITEMS = [
-  { href: '/dashboard', label: 'Dashboard', icono: 'space_dashboard' },
+  { href: '/dashboard', label: 'Dashboard', icono: 'dashboard' },
 ] as const;
 
 interface SidebarItemProps {
   icono: string;
+  logoIcono?: string;
   label: string;
   activo?: boolean;
   onClick?: () => void;
@@ -19,12 +21,27 @@ interface SidebarItemProps {
   rounded?: 'lg' | 'full';
 }
 
-function SidebarItem({ icono, label, activo, onClick, href, external, rounded = 'lg' }: SidebarItemProps) {
-  const base = `group relative flex items-center justify-center w-10 h-10 rounded-${rounded} transition-colors
-    ${activo
-      ? 'bg-primary text-primary-ink'
-      : 'text-black hover:bg-surface-muted hover:text-black'
-    }`;
+function SidebarItem({ icono, logoIcono, label, activo, onClick, href, external, rounded = 'lg' }: SidebarItemProps) {
+  const base = `group relative flex items-center justify-center w-10 h-10 rounded-${rounded} transition-all
+    ${activo ? 'bg-primary text-primary-ink' : 'text-black hover:bg-surface-muted hover:text-black'}`;
+
+  const iconEl = logoIcono ? (
+    <Image
+      src={logoIcono}
+      alt={label}
+      width={28}
+      height={28}
+      className="w-7 h-7 object-contain transition-transform duration-200 hover:scale-110"
+    />
+  ) : (
+    <span
+      className={`material-symbols-outlined text-[22px] transition-all
+        ${activo ? 'bg-primary text-primary-ink rounded-full p-1.5' : ''}`}
+      style={activo ? { fontVariationSettings: "'FILL' 1" } : undefined}
+    >
+      {icono}
+    </span>
+  );
 
   const tooltip = (
     <span className="pointer-events-none absolute left-full ml-3 px-2 py-1 rounded-md bg-gray-900 text-white text-xs font-medium whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity z-50">
@@ -37,14 +54,14 @@ function SidebarItem({ icono, label, activo, onClick, href, external, rounded = 
   );
 
   if (href && external) {
-    return <a href={href} className={base}><span className="material-symbols-outlined text-[22px]">{icono}</span>{tooltip}{indicator}</a>;
+    return <a href={href} className={base}>{iconEl}{tooltip}{indicator}</a>;
   }
   if (href) {
-    return <Link href={href} onClick={onClick} className={base}><span className="material-symbols-outlined text-[22px]">{icono}</span>{tooltip}{indicator}</Link>;
+    return <Link href={href} onClick={onClick} className={base}>{iconEl}{tooltip}{indicator}</Link>;
   }
   return (
     <button onClick={onClick} className={base}>
-      <span className="material-symbols-outlined text-[22px]">{icono}</span>
+      {iconEl}
       {tooltip}
       {indicator}
     </button>
@@ -91,6 +108,7 @@ export default function Sidebar() {
               <SidebarItem
                 key={m.key}
                 icono={m.icono}
+                logoIcono={m.logoIcono}
                 label={m.label}
                 activo={microservicioActivo?.key === m.key}
                 onClick={() => setMicroservicioActivo(m)}
