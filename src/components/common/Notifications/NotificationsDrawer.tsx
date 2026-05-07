@@ -3,6 +3,10 @@
 import { useUiStore, useNotificacionesStore } from '@/store';
 import { NOTIFICACIONES_ENDPOINTS } from '@/api';
 import { Notificacion } from '@/types/models';
+import { ServicioEnum } from '@/types/Servicio/ServicioEnum.enum';
+import { ProductoEnum } from '@/types/Producto';
+import { read } from 'fs';
+import { log } from 'util';
 
 function tiempoRelativo(fecha: string): string {
   const diff  = Date.now() - new Date(fecha).getTime();
@@ -22,12 +26,40 @@ export default function NotificationsDrawer() {
 
   const noLeidas = notificaciones.filter((n) => !n.is_read).length;
 
+  const readNotificacion = async (uuid: string, endpoint: string) => {
+    await fetch(endpoint, {
+      method: 'PATCH',
+      credentials: 'include',
+    }).catch(() => {});
+  }
+
+  // NOTA:
+  // En esta sección del código se enrutan las notificaciones a acciones específicas dependiendo del producto y servicio.
+  // Esto es necesario porque las notificaciones viven en entornos aislados al hub principal, por lo que no puede marcarse solo 
+  // como leída, si no que es necesario enviar la acción de lectura a cada microservicio para que este actualice su estado interno
+
+  const handleCistemGas = async (n: Notificacion) => {
+    switch (n.servicio) {
+      case ServicioEnum.CISTEM_VISION:
+        // readNotificacion(n.uuid, NOTIFICACIONES_ENDPOINTS.MARCAR_LEIDA_CISTEM_GAS_CISTEM_VISION(n.uuid));
+        break;
+    }
+  }
+
   const handleClick = async (n: Notificacion) => {
     if (!n.is_read) {
       marcarLeida(n.uuid);
-      await fetch(NOTIFICACIONES_ENDPOINTS.MARCAR_LEIDA(n.uuid), {
+
+      console.log(JSON.stringify(n));
+      
+
+      await fetch(NOTIFICACIONES_ENDPOINTS.MARCAR_LEIDA, {
+        body: JSON.stringify(n),
         method: 'PATCH',
         credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        }
       }).catch(() => {});
     }
   };
@@ -38,9 +70,18 @@ export default function NotificationsDrawer() {
 
   const handleMarcarTodas = async () => {
     marcarTodasLeidas();
+
+    console.log((notificaciones.filter(n => !n.is_read)));
+
     await fetch(NOTIFICACIONES_ENDPOINTS.MARCAR_TODAS, {
+      body: JSON.stringify({
+        notificaciones: notificaciones.filter((n) => !n.is_read)
+      }),
       method: 'PATCH',
       credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      }
     }).catch(() => {});
   };
 

@@ -3,7 +3,7 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthStore, useNotificacionesStore } from '@/store';
-import { AUTH_ENDPOINTS } from '@/api';
+import { AUTH_ENDPOINTS, NOTIFICACIONES_ENDPOINTS } from '@/api';
 import { SesionDto } from '@/types/Auth';
 import { MOCK_USUARIO, MOCK_EMPRESA, MOCK_PRODUCTOS, MOCK_NOTIFICACIONES } from '@/mocks';
 
@@ -31,9 +31,11 @@ export default function SessionInitializer() {
       })
       .then((data) => {
         if (!data) return;
+  
         setUsuario(data.usuario);
         setEmpresa(data.empresa);
         setProductos(data.productos);
+        setNotificaciones(data.notificaciones);
       })
       .catch(() => router.replace('/login'));
   }, [setUsuario, setEmpresa, setProductos, setNotificaciones, router]);
