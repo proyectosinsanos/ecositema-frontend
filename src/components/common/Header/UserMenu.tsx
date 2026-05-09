@@ -49,7 +49,7 @@ export default function UserMenu({ isOpen, onToggle, onClose }: UserMenuProps) {
 
   const inicial        = usuario?.name.charAt(0).toUpperCase() ?? '?';
   const nombreCompleto = usuario ? `${usuario.name} ${usuario.last_name}` : 'Usuario';
-  const avatar         = assetUrl(usuario?.avatar);
+  const avatar         = assetUrl(usuario?.url_photo);
 
   return (
     <div ref={ref} className="relative">
