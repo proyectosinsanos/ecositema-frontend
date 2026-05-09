@@ -6,16 +6,8 @@ export default function LoginPage() {
 
       {/* Panel izquierdo (oculto en movil) */}
       <div className="hidden lg:flex lg:w-1/2 bg-primary flex-col items-center justify-center p-12 gap-6">
-        <div className="text-center text-primary-ink">
-          {/* TODO: Reemplazar con logo oficial de Cistem Labs */}
-          <div className="w-20 h-20 rounded-2xl bg-primary-ink/10 flex items-center justify-center mx-auto mb-6">
-            <span className="material-symbols-outlined text-[40px] text-primary-ink">hub</span>
-          </div>
-          <h1 className="text-3xl font-bold mb-2">Cistem Labs</h1>
-          <p className="text-primary-ink/60 text-base max-w-xs">
-            Ecosistema
-          </p>
-        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/Cistemsuiteblanco.svg" alt="Cistem Suite" className="w-[600px] h-auto object-contain" />
       </div>
 
       {/* Panel derecho — formulario */}
@@ -23,9 +15,9 @@ export default function LoginPage() {
         <div className="w-full max-w-sm">
 
           {/* Logo visible solo en movil*/}
-          <div className="flex items-center gap-2 mb-8 lg:hidden">
-            <span className="material-symbols-outlined text-primary-dark text-[28px]">hub</span>
-            <span className="text-xl font-bold text-primary-dark">Cistem Labs</span>
+          <div className="flex justify-center items-center mb-8 lg:hidden">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/cistemsuiteverde-cropped.svg" alt="Cistem Suite" className="h-36 w-auto object-contain" />
           </div>
 
           <div className="mb-8">
